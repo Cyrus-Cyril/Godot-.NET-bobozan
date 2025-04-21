@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://f8vhwynwmd6b"]
+
+[node name="CharacterSelectScene" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="CharacterGrid" type="GridContainer" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Character1" type="TextureButton" parent="CharacterGrid"]
+layout_mode = 2
+
+[node name="Character2" type="TextureButton" parent="CharacterGrid"]
+layout_mode = 2
+
+[node name="ConfirmButton" type="Button" parent="."]
+layout_mode = 0
+offset_right = 8.0
+offset_bottom = 8.0
+
+[node name="BackButton" type="Button" parent="."]
+layout_mode = 0
+offset_right = 8.0
+offset_bottom = 8.0
