@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=3 uid="uid://fmwoem2w1dat"]
+
+[ext_resource type="Script" uid="uid://cslx0pgk7876q" path="res://code/gamescene.gd" id="1_og0yp"]
+[ext_resource type="Texture2D" uid="uid://c27i8h6jk6yn5" path="res://assets/Old-dark-Castle-tileset-Files/PNG/old-dark-castle-interior-background.png" id="2_i05be"]
+[ext_resource type="PackedScene" uid="uid://boyjp3v54rdfo" path="res://scenes/players/player_1.tscn" id="3_yrhak"]
+[ext_resource type="PackedScene" uid="uid://bj2eo16pbs1i2" path="res://scenes/players/player_2.tscn" id="4_hetm2"]
+
+[node name="gamescene" type="Node2D"]
+script = ExtResource("1_og0yp")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(1.1995, 1.67777)
+texture = ExtResource("2_i05be")
+metadata/_edit_lock_ = true
+
+[node name="Camera2D" type="Camera2D" parent="."]
+scale = Vector2(1.23232, 0.706439)
+metadata/_edit_lock_ = true
+
+[node name="Player1" parent="." instance=ExtResource("3_yrhak")]
+position = Vector2(-1319, -575)
+scale = Vector2(1.82409, 1.69016)
+
+[node name="player_2" parent="." instance=ExtResource("4_hetm2")]
+position = Vector2(406, 1.99999)
+scale = Vector2(-4.7768, 3.92574)
