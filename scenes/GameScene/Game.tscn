@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=3 uid="uid://fmwoem2w1dat"]
+
+[ext_resource type="Texture2D" uid="uid://c27i8h6jk6yn5" path="res://assets/Old-dark-Castle-tileset-Files/PNG/old-dark-castle-interior-background.png" id="1_qbsmt"]
+[ext_resource type="PackedScene" uid="uid://boyjp3v54rdfo" path="res://scenes/player/player_1.tscn" id="2_qbsmt"]
+[ext_resource type="PackedScene" uid="uid://bj2eo16pbs1i2" path="res://scenes/player/player_2.tscn" id="3_cpr0p"]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(1.3335, 1.8385)
+texture = ExtResource("1_qbsmt")
+metadata/_edit_lock_ = true
+
+[node name="Camera2D" type="Camera2D" parent="."]
+scale = Vector2(1.23232, 0.706439)
+metadata/_edit_lock_ = true
+
+[node name="Player1" parent="." instance=ExtResource("2_qbsmt")]
+position = Vector2(-1319, -575)
+scale = Vector2(1.71713, 1.74047)
+
+[node name="player_2" parent="." instance=ExtResource("3_cpr0p")]
+position = Vector2(450, 30)
+scale = Vector2(-4.7768, 3.92574)
