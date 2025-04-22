@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://c8nfobnpuwaep"]
+
+[node name="MultiplayerLobbyScene" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="CreateRoomButton" type="Button" parent="."]
+layout_mode = 0
+offset_right = 8.0
+offset_bottom = 8.0
+
+[node name="JoinRoomButton" type="Button" parent="."]
+layout_mode = 0
+offset_right = 8.0
+offset_bottom = 8.0
+
+[node name="RoomCodeInput" type="LineEdit" parent="."]
+layout_mode = 0
+offset_right = 68.5625
+offset_bottom = 31.0
+
+[node name="ConnectStatusLabel" type="Label" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="BackButton" type="Button" parent="."]
+layout_mode = 0
+offset_right = 8.0
+offset_bottom = 8.0
