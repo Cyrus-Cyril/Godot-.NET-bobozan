@@ -23,7 +23,20 @@ public partial class MainScene : Control
 		// 退出游戏
 		GetTree().Quit();
 	}
-	
+	private void _on_page_right_gui_input(InputEvent @event)
+	{
+		if (@event is InputEventMouseButton mouseEvent && mouseEvent.Pressed && mouseEvent.ButtonIndex == MouseButton.Left)
+		{
+			GetNode<AnimationPlayer>("PageBounce").Play("PageBounce");
+		}
+	}
+	private void _on_page_left_gui_input(InputEvent @event)
+	{
+		if (@event is InputEventMouseButton mouseEvent && mouseEvent.Pressed && mouseEvent.ButtonIndex == MouseButton.Left)
+		{
+			GetNode<AnimationPlayer>("PageBounce2").Play("PageBounce2");
+		}
+	}
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{

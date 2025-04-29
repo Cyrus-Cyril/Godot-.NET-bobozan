@@ -1,4 +1,4 @@
-[gd_scene load_steps=56 format=3 uid="uid://dlqqldqsrgn1b"]
+[gd_scene load_steps=65 format=3 uid="uid://dlqqldqsrgn1b"]
 
 [ext_resource type="Script" uid="uid://dbbvw66ewy0w7" path="res://scenes/MainScene/MainScene.cs" id="1_0ots1"]
 [ext_resource type="Texture2D" uid="uid://btocjfqsqojpu" path="res://assets/Complete_UI_Book_Styles_Pack_Free_v1.0/01_TravelBookLite/Sprites Animated/UI_TravelBook_Button01a_5.png" id="2_bedov"]
@@ -10,7 +10,6 @@
 [ext_resource type="Texture2D" uid="uid://cv5ne2pg8p8a1" path="res://assets/Complete_UI_Book_Styles_Pack_Free_v1.0/01_TravelBookLite/Sprites/UI_TravelBook_BookPageRight01a.png" id="5_grlop"]
 [ext_resource type="Texture2D" uid="uid://ddw5u1ytnhooi" path="res://assets/Medieval King Pack 2/Sprites/Idle.png" id="5_kym7u"]
 [ext_resource type="Texture2D" uid="uid://brj6onwcp2yad" path="res://assets/campfire-sheet.png" id="8_anyyc"]
-[ext_resource type="StyleBox" uid="uid://bvg17ut1fgmj5" path="res://scenes/MainScene/ButtonFocus.tres" id="8_rn3p1"]
 [ext_resource type="Texture2D" uid="uid://cx1htn6wf5hqd" path="res://assets/Complete_UI_Book_Styles_Pack_Free_v1.0/01_TravelBookLite/Sprites/UI_TravelBook_BookPageLeft01a.png" id="10_gigpi"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_grlop"]
@@ -205,6 +204,8 @@ animations = [{
 "speed": 8.0
 }]
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_agbyu"]
+
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_otnic"]
 texture = ExtResource("2_bedov")
 
@@ -213,6 +214,8 @@ texture = ExtResource("3_e72co")
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_bedov"]
 texture = ExtResource("2_mgn58")
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_rn3p1"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_e72co"]
 texture = ExtResource("2_bedov")
@@ -223,6 +226,8 @@ texture = ExtResource("3_e72co")
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_grlop"]
 texture = ExtResource("2_mgn58")
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_kym7u"]
+
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_gigpi"]
 texture = ExtResource("2_bedov")
 
@@ -232,8 +237,10 @@ texture = ExtResource("3_e72co")
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_rn3p1"]
 texture = ExtResource("2_mgn58")
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1tofb"]
+
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_kym7u"]
-texture = ExtResource("3_e72co")
+texture = ExtResource("2_bedov")
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_1tofb"]
 texture = ExtResource("3_e72co")
@@ -303,11 +310,111 @@ tracks/1/keys = {
 "update": 0,
 "values": [0.0]
 }
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("MenuFrame/PageRight:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("MenuFrame/PageLeft:scale")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_1tofb"]
+resource_name = "PageBounce"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MenuFrame/PageRight:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(0.98, 0.98), Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_e77j7"]
+resource_name = "PageBounce2"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MenuFrame/PageLeft:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(0.98, 0.98), Vector2(1, 1)]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_1tofb"]
 _data = {
 &"Float": SubResource("Animation_rn3p1"),
+&"PageBounce": SubResource("Animation_1tofb"),
+&"PageBounce2": SubResource("Animation_e77j7"),
 &"RESET": SubResource("Animation_kym7u")
+}
+
+[sub_resource type="Animation" id="Animation_sbe4t"]
+resource_name = "PageBounce"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MenuFrame/PageRight:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(0.98, 0.98), Vector2(1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_hr0f4"]
+_data = {
+&"PageBounce": SubResource("Animation_sbe4t")
+}
+
+[sub_resource type="Animation" id="Animation_y1jw2"]
+resource_name = "PageBounce2"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MenuFrame/PageLeft:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(0.98, 0.98), Vector2(1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ao6ly"]
+_data = {
+&"PageBounce2": SubResource("Animation_y1jw2")
 }
 
 [node name="MainScene" type="Control"]
@@ -361,7 +468,6 @@ offset_top = 33.0
 offset_right = 489.0
 offset_bottom = 563.0
 texture = ExtResource("3_anyyc")
-metadata/_edit_group_ = true
 
 [node name="PageRight" type="TextureRect" parent="MenuFrame"]
 layout_mode = 0
@@ -369,16 +475,18 @@ offset_left = 417.0
 offset_top = 11.0
 offset_right = 806.0
 offset_bottom = 507.0
+pivot_offset = Vector2(198.012, 298.054)
+mouse_filter = 0
 texture = ExtResource("5_grlop")
 
 [node name="ButtonSingle" type="Button" parent="MenuFrame/PageRight"]
 layout_mode = 0
-offset_left = 38.0
-offset_top = 116.0
-offset_right = 229.0
-offset_bottom = 198.0
+offset_left = 35.0
+offset_top = 165.0
+offset_right = 355.0
+offset_bottom = 250.0
 theme_override_font_sizes/font_size = 36
-theme_override_styles/focus = ExtResource("8_rn3p1")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_agbyu")
 theme_override_styles/hover = SubResource("StyleBoxTexture_otnic")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_l2fbh")
 theme_override_styles/normal = SubResource("StyleBoxTexture_bedov")
@@ -386,12 +494,12 @@ text = "单人游戏"
 
 [node name="ButtonMultiplayer" type="Button" parent="MenuFrame/PageRight"]
 layout_mode = 0
-offset_left = 162.0
-offset_top = 211.0
-offset_right = 362.0
-offset_bottom = 286.0
+offset_left = 35.0
+offset_top = 260.0
+offset_right = 355.0
+offset_bottom = 345.0
 theme_override_font_sizes/font_size = 36
-theme_override_styles/focus = ExtResource("8_rn3p1")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_rn3p1")
 theme_override_styles/hover = SubResource("StyleBoxTexture_e72co")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_anyyc")
 theme_override_styles/normal = SubResource("StyleBoxTexture_grlop")
@@ -399,26 +507,27 @@ text = "多人游戏"
 
 [node name="ButtonSettings" type="Button" parent="MenuFrame/PageRight"]
 layout_mode = 0
-offset_left = 31.0
-offset_top = 302.0
-offset_right = 222.0
-offset_bottom = 372.0
-theme_override_font_sizes/font_size = 36
-theme_override_styles/focus = ExtResource("8_rn3p1")
+offset_left = 255.0
+offset_top = 355.0
+offset_right = 355.0
+offset_bottom = 455.0
+theme_override_font_sizes/font_size = 30
+theme_override_styles/focus = SubResource("StyleBoxEmpty_kym7u")
 theme_override_styles/hover = SubResource("StyleBoxTexture_gigpi")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_agbyu")
 theme_override_styles/normal = SubResource("StyleBoxTexture_rn3p1")
-text = "游戏设置
+text = "游戏
+设置
 "
 
 [node name="ButtonExit" type="Button" parent="MenuFrame/PageRight"]
 layout_mode = 0
-offset_left = 171.0
-offset_top = 391.0
-offset_right = 352.0
-offset_bottom = 456.0
+offset_left = 35.0
+offset_top = 355.0
+offset_right = 240.0
+offset_bottom = 455.0
 theme_override_font_sizes/font_size = 36
-theme_override_styles/focus = ExtResource("8_rn3p1")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_1tofb")
 theme_override_styles/hover = SubResource("StyleBoxTexture_kym7u")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_1tofb")
 theme_override_styles/normal = SubResource("StyleBoxTexture_e77j7")
@@ -426,13 +535,13 @@ text = "退出游戏"
 
 [node name="TitleLabel" type="Label" parent="MenuFrame/PageRight"]
 layout_mode = 1
-offset_left = 40.0
-offset_top = 13.0
-offset_right = 348.0
-offset_bottom = 110.0
+offset_left = 35.0
+offset_top = 30.0
+offset_right = 355.0
+offset_bottom = 150.0
 theme_override_font_sizes/font_size = 48
 theme_override_styles/normal = SubResource("StyleBoxTexture_sbe4t")
-text = "游戏标题"
+text = "(游戏标题)"
 horizontal_alignment = 1
 
 [node name="PageLeft" type="TextureRect" parent="MenuFrame"]
@@ -441,15 +550,29 @@ offset_left = 22.0
 offset_top = 12.0
 offset_right = 412.0
 offset_bottom = 507.0
+pivot_offset = Vector2(190, 277.5)
+mouse_filter = 0
 texture = ExtResource("10_gigpi")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+[node name="MenuFloat" type="AnimationPlayer" parent="."]
 libraries = {
 &"": SubResource("AnimationLibrary_1tofb")
 }
 autoplay = "Float"
 
+[node name="PageBounce" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_hr0f4")
+}
+
+[node name="PageBounce2" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_ao6ly")
+}
+
+[connection signal="gui_input" from="MenuFrame/PageRight" to="." method="_on_page_right_gui_input"]
 [connection signal="pressed" from="MenuFrame/PageRight/ButtonSingle" to="." method="_on_button_single_pressed"]
 [connection signal="pressed" from="MenuFrame/PageRight/ButtonMultiplayer" to="." method="_on_button_multiplayer_pressed"]
 [connection signal="pressed" from="MenuFrame/PageRight/ButtonSettings" to="." method="_on_button_settings_pressed"]
 [connection signal="pressed" from="MenuFrame/PageRight/ButtonExit" to="." method="_on_button_exit_pressed"]
+[connection signal="gui_input" from="MenuFrame/PageLeft" to="." method="_on_page_left_gui_input"]
