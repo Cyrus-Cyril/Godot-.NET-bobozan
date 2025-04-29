@@ -337,21 +337,21 @@ position = Vector2(955, 517)
 scale = Vector2(2.79688, 2.67187)
 sprite_frames = SubResource("SpriteFrames_hr0f4")
 autoplay = "default"
-frame_progress = 0.712292
+frame_progress = 0.899537
 
 [node name="temp1" type="AnimatedSprite2D" parent="."]
 position = Vector2(818, 499)
 scale = Vector2(2.296, 1.988)
 sprite_frames = SubResource("SpriteFrames_ki5cs")
 autoplay = "default"
-frame_progress = 0.0932043
+frame_progress = 0.280442
 
 [node name="temp2" type="AnimatedSprite2D" parent="."]
 position = Vector2(1043, 481)
 scale = Vector2(1.82813, 1.98423)
 sprite_frames = SubResource("SpriteFrames_81o7s")
 autoplay = "default"
-frame_progress = 0.0910415
+frame_progress = 0.278279
 flip_h = true
 
 [node name="MenuFrame" type="TextureRect" parent="."]
