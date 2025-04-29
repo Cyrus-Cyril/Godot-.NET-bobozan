@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://fmwoem2w1dat"]
+[gd_scene load_steps=5 format=3 uid="uid://brk7tvao5swar"]
 
 [ext_resource type="Script" uid="uid://cslx0pgk7876q" path="res://code/gamescene.gd" id="1_og0yp"]
 [ext_resource type="Texture2D" uid="uid://c27i8h6jk6yn5" path="res://assets/Old-dark-Castle-tileset-Files/PNG/old-dark-castle-interior-background.png" id="2_i05be"]

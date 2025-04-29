@@ -47,5 +47,6 @@ offset_right = 68.5625
 offset_bottom = 31.0
 
 [node name="CancelButton" type="Button" parent="JoinRoomPopup"]
+layout_mode = 0
 offset_right = 8.0
 offset_bottom = 8.0

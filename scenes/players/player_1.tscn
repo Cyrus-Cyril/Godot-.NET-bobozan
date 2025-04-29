@@ -1,11 +1,11 @@
 [gd_scene load_steps=37 format=3 uid="uid://boyjp3v54rdfo"]
 
 [ext_resource type="Script" uid="uid://dkn3eiwm8gq8x" path="res://code/player_1.gd" id="1_sss8k"]
-[ext_resource type="PackedScene" uid="uid://cd3kv15n7q0gv" path="res://scenes/bullet/s_bullet.tscn" id="2_8p2l8"]
+[ext_resource type="PackedScene" uid="uid://cd3kv15n7q0gv" path="res://scenes/bullets/s_bullet.tscn" id="2_8p2l8"]
 [ext_resource type="Texture2D" uid="uid://b0m3nkej3uxfl" path="res://assets/EVil Wizard 2/Sprites/Attack1.png" id="3_8r5gt"]
-[ext_resource type="PackedScene" uid="uid://d1c3lid20tw02" path="res://scenes/bullet/m_bullet.tscn" id="3_ep6wn"]
+[ext_resource type="PackedScene" uid="uid://d1c3lid20tw02" path="res://scenes/bullets/m_bullet.tscn" id="3_ep6wn"]
 [ext_resource type="Texture2D" uid="uid://cn0dsglfm2bdk" path="res://assets/EVil Wizard 2/Sprites/Death.png" id="4_ep6wn"]
-[ext_resource type="PackedScene" uid="uid://0vepk26rkwsf" path="res://scenes/bullet/l_bullet.tscn" id="4_yrv7w"]
+[ext_resource type="PackedScene" uid="uid://0vepk26rkwsf" path="res://scenes/bullets/l_bullet.tscn" id="4_yrv7w"]
 [ext_resource type="Texture2D" uid="uid://balnb314brlh1" path="res://assets/EVil Wizard 2/Sprites/Take hit.png" id="5_yrv7w"]
 [ext_resource type="Texture2D" uid="uid://ddipje5dqwfqb" path="res://assets/EVil Wizard 2/Sprites/Idle.png" id="6_t3qtu"]
 
@@ -228,7 +228,7 @@ l_bullet_scene = ExtResource("4_yrv7w")
 position = Vector2(524, 366)
 scale = Vector2(2.10233, 1.97263)
 sprite_frames = SubResource("SpriteFrames_van65")
-animation = &"attack"
+animation = &"idle"
 autoplay = "idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
