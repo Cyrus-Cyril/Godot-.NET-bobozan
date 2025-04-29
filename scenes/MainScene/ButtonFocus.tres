@@ -1,0 +1,6 @@
+[gd_resource type="StyleBoxTexture" load_steps=2 format=3 uid="uid://bvg17ut1fgmj5"]
+
+[ext_resource type="Texture2D" uid="uid://t7ehibobjdni" path="res://assets/Complete_UI_Book_Styles_Pack_Free_v1.0/01_TravelBookLite/Sprites/UI_TravelBook_Select01a.png" id="1_e6kc7"]
+
+[resource]
+texture = ExtResource("1_e6kc7")
