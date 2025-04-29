@@ -11,8 +11,8 @@ config_version=5
 [application]
 
 config/name="bobocan"
-run/main_scene="uid://fmwoem2w1dat"
-config/features=PackedStringArray("4.4", "Forward Plus")
+run/main_scene="uid://dlqqldqsrgn1b"
+config/features=PackedStringArray("4.4", "C#", "Forward Plus")
 config/icon="res://icon.svg"
 
 [dotnet]
