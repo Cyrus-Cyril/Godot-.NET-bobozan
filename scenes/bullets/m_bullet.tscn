@@ -1,13 +1,13 @@
 [gd_scene load_steps=4 format=3 uid="uid://d1c3lid20tw02"]
 
-[ext_resource type="Script" uid="uid://dn4cwcgmf803j" path="res://code/m_bullet.gd" id="1_63vet"]
+[ext_resource type="Script" uid="uid://be8gohrjcg0bc" path="res://code/MBullet.cs" id="1_b36dj"]
 [ext_resource type="Texture2D" uid="uid://blukeyvhb8ybx" path="res://assets/New_All_Fire_Bullet_Pixel_16x16/m_bullet.png" id="1_vdgjw"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vdgjw"]
 size = Vector2(108, 42)
 
 [node name="m_bullet" type="Area2D"]
-script = ExtResource("1_63vet")
+script = ExtResource("1_b36dj")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(3.8147e-06, -4.76837e-07)

@@ -1,12 +1,13 @@
-[gd_scene load_steps=37 format=3 uid="uid://boyjp3v54rdfo"]
+[gd_scene load_steps=46 format=3 uid="uid://boyjp3v54rdfo"]
 
-[ext_resource type="Script" uid="uid://dkn3eiwm8gq8x" path="res://code/player_1.gd" id="1_sss8k"]
+[ext_resource type="Script" uid="uid://spg76ybci7wg" path="res://code/Player1.cs" id="1_qohf6"]
 [ext_resource type="PackedScene" uid="uid://cd3kv15n7q0gv" path="res://scenes/bullets/s_bullet.tscn" id="2_8p2l8"]
 [ext_resource type="Texture2D" uid="uid://b0m3nkej3uxfl" path="res://assets/EVil Wizard 2/Sprites/Attack1.png" id="3_8r5gt"]
 [ext_resource type="PackedScene" uid="uid://d1c3lid20tw02" path="res://scenes/bullets/m_bullet.tscn" id="3_ep6wn"]
 [ext_resource type="Texture2D" uid="uid://cn0dsglfm2bdk" path="res://assets/EVil Wizard 2/Sprites/Death.png" id="4_ep6wn"]
 [ext_resource type="PackedScene" uid="uid://0vepk26rkwsf" path="res://scenes/bullets/l_bullet.tscn" id="4_yrv7w"]
 [ext_resource type="Texture2D" uid="uid://balnb314brlh1" path="res://assets/EVil Wizard 2/Sprites/Take hit.png" id="5_yrv7w"]
+[ext_resource type="Texture2D" uid="uid://dskylehndygmv" path="res://assets/EVil Wizard 2/Sprites/Run.png" id="6_bro1e"]
 [ext_resource type="Texture2D" uid="uid://ddipje5dqwfqb" path="res://assets/EVil Wizard 2/Sprites/Idle.png" id="6_t3qtu"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_van65"]
@@ -113,6 +114,38 @@ region = Rect2(1500, 0, 250, 250)
 atlas = ExtResource("6_t3qtu")
 region = Rect2(1750, 0, 250, 250)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_it8sy"]
+atlas = ExtResource("6_bro1e")
+region = Rect2(0, 0, 250, 250)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vxtj5"]
+atlas = ExtResource("6_bro1e")
+region = Rect2(250, 0, 250, 250)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_81ukp"]
+atlas = ExtResource("6_bro1e")
+region = Rect2(500, 0, 250, 250)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nxvdy"]
+atlas = ExtResource("6_bro1e")
+region = Rect2(750, 0, 250, 250)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8v7ue"]
+atlas = ExtResource("6_bro1e")
+region = Rect2(1000, 0, 250, 250)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a4fp5"]
+atlas = ExtResource("6_bro1e")
+region = Rect2(1250, 0, 250, 250)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_drjwx"]
+atlas = ExtResource("6_bro1e")
+region = Rect2(1500, 0, 250, 250)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ba075"]
+atlas = ExtResource("6_bro1e")
+region = Rect2(1750, 0, 250, 250)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_van65"]
 animations = [{
 "frames": [{
@@ -182,7 +215,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"hit",
-"speed": 6.0
+"speed": 8.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -212,6 +245,35 @@ animations = [{
 "loop": true,
 "name": &"idle",
 "speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_it8sy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vxtj5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_81ukp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nxvdy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8v7ue")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a4fp5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_drjwx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ba075")
+}],
+"loop": true,
+"name": &"run",
+"speed": 10.0
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_jxcr8"]
@@ -219,17 +281,20 @@ radius = 40.0
 height = 112.0
 
 [node name="Player1" type="CharacterBody2D"]
-script = ExtResource("1_sss8k")
-s_bullet_scene = ExtResource("2_8p2l8")
-m_bullet_scene = ExtResource("3_ep6wn")
-l_bullet_scene = ExtResource("4_yrv7w")
+scale = Vector2(0.687125, 0.689889)
+script = ExtResource("1_qohf6")
+SmallBulletScene = ExtResource("2_8p2l8")
+MediumBulletScene = ExtResource("3_ep6wn")
+LargeBulletScene = ExtResource("4_yrv7w")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(524, 366)
 scale = Vector2(2.10233, 1.97263)
 sprite_frames = SubResource("SpriteFrames_van65")
-animation = &"idle"
+animation = &"hit"
 autoplay = "idle"
+frame = 2
+frame_progress = 1.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(523, 400)
