@@ -612,10 +612,10 @@ flip_h = true
 
 [node name="MenuFrame" type="TextureRect" parent="."]
 layout_mode = 0
-offset_left = -350.0
-offset_top = 51.5
-offset_right = 480.0
-offset_bottom = 581.5
+offset_left = 225.0
+offset_top = 81.5
+offset_right = 1055.0
+offset_bottom = 611.5
 texture = ExtResource("5_nywun")
 
 [node name="PageRightAnimate" type="TextureRect" parent="MenuFrame"]
