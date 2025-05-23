@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://bp87gc6gc6j7c"]
+
+[ext_resource type="Texture2D" uid="uid://cbdc8swqhiiwo" path="res://assets/New_All_Fire_Bullet_Pixel_16x16/rebound.png" id="1_iejnv"]
+[ext_resource type="Script" uid="uid://btsd4beni3tnq" path="res://code/Rebound.cs" id="1_ji8ch"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ji8ch"]
+radius = 16.6894
+height = 96.0
+
+[node name="rebound" type="Area2D"]
+scale = Vector2(-0.91394, 1.18375)
+script = ExtResource("1_ji8ch")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(-1.02868, 1.17729)
+texture = ExtResource("1_iejnv")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+scale = Vector2(0.958695, 1)
+shape = SubResource("CapsuleShape2D_ji8ch")

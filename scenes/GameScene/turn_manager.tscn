@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://djh7elksssgkd"]
+
+[ext_resource type="Script" uid="uid://cjmr8k3ggv2mf" path="res://code/BattleManager.cs" id="1_fo45u"]
+
+[node name="TurnManager" type="Node"]
+script = ExtResource("1_fo45u")

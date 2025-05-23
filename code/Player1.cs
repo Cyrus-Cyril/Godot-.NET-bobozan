@@ -1,20 +1,22 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
 public partial class Player1 : CharacterBody2D
 {
-	[Export]
-	public int HP = 10;
-	[Export]
-	public PackedScene SmallBulletScene;
-	[Export]
-	public PackedScene MediumBulletScene;
-	[Export]
-	public PackedScene LargeBulletScene;
+	[Export] public int HP = 10;
+	[Export] public PackedScene SmallBulletScene;
+	[Export] public PackedScene MediumBulletScene;
+	[Export] public PackedScene LargeBulletScene;
+	[Export] public PackedScene DefendScene;
+	[Export] public PackedScene ReboundScene;
+	[Export] public int MaxMP { get; set; } = 100;
+	public int MP { get; set; } = 0;
 
-	private AnimatedSprite2D sprite;
-	private bool autoMove = false; // 自动移动开关
-	private float moveSpeed = 100f; // 自动移动速度
+	public AnimatedSprite2D sprite;
+	private string pendingAction = null;
+	private List<int> waveBuffer = new();
+	private bool actionChosen = false;
 
 	public override void _Ready()
 	{
@@ -25,61 +27,57 @@ public partial class Player1 : CharacterBody2D
 	private void OnAnimationFinished()
 	{
 		if (sprite.Animation == "hit" || sprite.Animation == "attack")
-		{
 			sprite.Play("idle");
-		}
 	}
 
 	public override void _Process(double delta)
 	{
-		if (!autoMove)
-		{
-			int facingDir = sprite.FlipH ? -1 : 1;
+		if (actionChosen) return;
 
-			if (Input.IsActionJustPressed("fire_small_wave"))
-				FireWave(SmallBulletScene, facingDir);
-			else if (Input.IsActionJustPressed("fire_medium_wave"))
-				FireWave(MediumBulletScene, facingDir);
-			else if (Input.IsActionJustPressed("fire_large_wave"))
-				FireWave(LargeBulletScene, facingDir);
-		}
-	}
+		if (Input.IsActionJustPressed("charge")) pendingAction = "charge";
+		else if (Input.IsActionJustPressed("defend")) pendingAction = "defend";
+		else if (Input.IsActionJustPressed("rebound") && MP >= 1) pendingAction = "rebound";
+		else if (Input.IsActionJustPressed("fire_small_wave")) waveBuffer.Add(1);
+		else if (Input.IsActionJustPressed("fire_medium_wave")) waveBuffer.Add(2);
+		else if (Input.IsActionJustPressed("fire_large_wave")) waveBuffer.Add(3);
 
-	public override void _PhysicsProcess(double delta)
-	{
-		if (autoMove)
+		// 玩家按下确认键
+		if (Input.IsActionJustPressed("confirm_action_p1"))
 		{
-			Velocity = new Vector2(moveSpeed, 0);
-			MoveAndSlide();
-			if (sprite.Animation != "run")
+			if (pendingAction == "wave" || waveBuffer.Count > 0)
 			{
-				sprite.Play("run");
+				int total = 0;
+				foreach (int w in waveBuffer)
+					total += w;
+				if (total <= MP)
+				{
+					pendingAction = "wave";
+					actionChosen = true;
+				}
+				else
+				{
+					GD.Print("MP不足，清除波组合");
+					waveBuffer.Clear();
+				}
+			}
+			else if (!string.IsNullOrEmpty(pendingAction))
+			{
+				actionChosen = true;
 			}
 		}
 	}
 
-	private void FireWave(PackedScene bulletScene, int direction)
+	public PlayerAction GetAction()
 	{
-		if (bulletScene == null)
-		{
-			GD.Print("波场景未设置");
-			return;
-		}
+		if (!actionChosen) return null;
+		return pendingAction == "wave" ? new PlayerAction("wave", new List<int>(waveBuffer)) : new PlayerAction(pendingAction);
+	}
 
-		Node bulletInstance = bulletScene.Instantiate();
-		if (bulletInstance is Node2D bullet)
-		{
-			bullet.GlobalPosition = new Vector2(300, 500);
-
-			if (bullet.HasMeta("direction"))
-				bullet.Set("direction", direction);
-			else if (bullet is Bullet bulletScript)
-				bulletScript.Direction = direction;
-
-			GetTree().CurrentScene.AddChild(bullet);
-		}
-
-		sprite.Play("attack");
+	public void ResetAction()
+	{
+		pendingAction = null;
+		actionChosen = false;
+		waveBuffer.Clear();
 	}
 
 	public void TakeDamage(int damage)
@@ -87,22 +85,12 @@ public partial class Player1 : CharacterBody2D
 		sprite.Play("hit");
 		HP -= damage;
 		GD.Print($"HP: {HP}");
-
-		if (HP <= 0)
-		{
-			Die();
-		}
+		if (HP <= 0) Die();
 	}
 
 	private void Die()
 	{
-		GD.Print("Player died!");
+		GD.Print("Player1 died!");
 		sprite.Play("death");
-	}
-
-	// 在战斗胜利后调用此函数
-	public void StartAutoMove()
-	{
-		autoMove = true;
 	}
 }

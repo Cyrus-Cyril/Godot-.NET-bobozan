@@ -1,64 +1,97 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
 public partial class Player2 : CharacterBody2D
 {
-	[Export]
-	public int HP = 10;
-	[Export]
-	public PackedScene SmallBulletScene;
-	[Export]
-	public PackedScene MediumBulletScene;
-	[Export]
-	public PackedScene LargeBulletScene;
+	[Export] public int HP = 10;
+	[Export] public PackedScene SmallBulletScene;
+	[Export] public PackedScene MediumBulletScene;
+	[Export] public PackedScene LargeBulletScene;
+	[Export] public PackedScene DefendScene;
+	[Export] public PackedScene ReboundScene;
+	[Export] public int MaxMP { get; set; } = 100;
+	public int MP { get; set; } = 0;
 
-	private AnimatedSprite2D sprite;
-	private Player1 player1; // 引用 Player1
+	public AnimatedSprite2D sprite;
+	private string pendingAction = null;
+	private List<int> waveBuffer = new();
+	private bool actionChosen = false;
 
 	public override void _Ready()
 	{
 		sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 		sprite.AnimationFinished += OnAnimationFinished;
-
-		// Player1 与 Player2 在同一父节点下，并命名为 "Player1"
-		player1 = GetParent().GetNode<Player1>("Player1");
 	}
 
 	private void OnAnimationFinished()
 	{
-		if (sprite.Animation == "hit")
-		{
+		if (sprite.Animation == "hit" || sprite.Animation == "attack")
 			sprite.Play("idle");
-		}
-		if (sprite.Animation == "attack")
+	}
+
+	public override void _Process(double delta)
+	{
+		if (actionChosen) return;
+
+		if (Input.IsActionJustPressed("fire_small_wave_p2")) waveBuffer.Add(1);
+		if (Input.IsActionJustPressed("fire_medium_wave_p2")) waveBuffer.Add(2);
+		if (Input.IsActionJustPressed("fire_large_wave_p2")) waveBuffer.Add(3);
+
+		if (Input.IsActionJustPressed("charge_p2")) pendingAction = "charge";
+		if (Input.IsActionJustPressed("defend_p2")) pendingAction = "defend";
+		if (Input.IsActionJustPressed("rebound_p2") && MP >= 1) pendingAction = "rebound";
+
+		if (Input.IsActionJustPressed("confirm_action_p2"))
 		{
-			sprite.Play("idle");
+			if (waveBuffer.Count > 0)
+			{
+				int total = 0;
+				foreach (int w in waveBuffer)
+					total += w;
+				if (total <= MP)
+				{
+					pendingAction = "wave";
+					actionChosen = true;
+				}
+				else
+				{
+					GD.Print("Player2 MP不足，清除波组合");
+					waveBuffer.Clear();
+					pendingAction = null;
+				}
+			}
+			else if (!string.IsNullOrEmpty(pendingAction))
+			{
+				actionChosen = true;
+			}
 		}
+	}
+
+	public PlayerAction GetAction()
+	{
+		if (!actionChosen) return null;
+		return pendingAction == "wave" ? new PlayerAction("wave", new List<int>(waveBuffer)) : new PlayerAction(pendingAction);
+	}
+
+	public void ResetAction()
+	{
+		pendingAction = null;
+		actionChosen = false;
+		waveBuffer.Clear();
 	}
 
 	public void TakeDamage(int damage)
 	{
 		sprite.Play("hit");
 		HP -= damage;
-		GD.Print($"HP: {HP}");
-
-		if (HP <= 0)
-		{
-			Die();
-		}
+		GD.Print("HP: " + HP);
+		if (HP <= 0) Die();
 	}
 
 	private void Die()
 	{
-		GD.Print("Enemy died!");
+		GD.Print("Player2 died!");
 		sprite.Play("death");
-		
-	CollisionShape2D collision = GetNode<CollisionShape2D>("CollisionShape2D");
-	if (collision != null)
-	{
-		collision.SetDeferred("disabled", true);
-	}
-		// 通知 Player1 开始自动移动
-		player1?.StartAutoMove();
 	}
 }
