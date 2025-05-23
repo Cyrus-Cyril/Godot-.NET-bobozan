@@ -1,15 +1,20 @@
-[gd_scene load_steps=61 format=3 uid="uid://f8vhwynwmd6b"]
+[gd_scene load_steps=101 format=3 uid="uid://dw8lfnl7j8rao"]
 
+[ext_resource type="Script" uid="uid://75mvexmayeao" path="res://scenes/CharacterSelect/CharacterSelectScene.cs" id="1_b270g"]
 [ext_resource type="Texture2D" uid="uid://bb0nrjsttsdii" path="res://assets/Free Pixel Art Forest/Preview/Background.png" id="1_qbid7"]
 [ext_resource type="Texture2D" uid="uid://brj6onwcp2yad" path="res://assets/campfire-sheet.png" id="2_fu1gu"]
 [ext_resource type="Texture2D" uid="uid://ddipje5dqwfqb" path="res://assets/EVil Wizard 2/Sprites/Idle.png" id="3_xhoi3"]
 [ext_resource type="Texture2D" uid="uid://ddw5u1ytnhooi" path="res://assets/Medieval King Pack 2/Sprites/Idle.png" id="4_b270g"]
 [ext_resource type="Texture2D" uid="uid://dhee8sgsxfsvu" path="res://assets/Complete_UI_Book_Styles_Pack_Free_v1.0/01_TravelBookLite/Sprites/UI_TravelBook_BookCover01a.png" id="5_nywun"]
+[ext_resource type="Texture2D" uid="uid://dyrhlsba32nkl" path="res://assets/Complete_UI_Book_Styles_Pack_Free_v1.0/01_TravelBookLite/Sprites/UI_TravelBook_Slot01a.png" id="5_xhoi3"]
 [ext_resource type="Texture2D" uid="uid://cv5ne2pg8p8a1" path="res://assets/Complete_UI_Book_Styles_Pack_Free_v1.0/01_TravelBookLite/Sprites/UI_TravelBook_BookPageRight01a.png" id="6_5kl63"]
+[ext_resource type="Script" uid="uid://dij2f3iflp4ea" path="res://scenes/CharacterSelect/CharacterSlot.cs" id="6_b270g"]
 [ext_resource type="Texture2D" uid="uid://btocjfqsqojpu" path="res://assets/Complete_UI_Book_Styles_Pack_Free_v1.0/01_TravelBookLite/Sprites Animated/UI_TravelBook_Button01a_5.png" id="7_n4r88"]
 [ext_resource type="Texture2D" uid="uid://bqhtcrh8efc2u" path="res://assets/Complete_UI_Book_Styles_Pack_Free_v1.0/01_TravelBookLite/Sprites Animated/UI_TravelBook_Button01a_3.png" id="8_7efsd"]
 [ext_resource type="Texture2D" uid="uid://dosr34srgamao" path="res://assets/Complete_UI_Book_Styles_Pack_Free_v1.0/01_TravelBookLite/Sprites Animated/UI_TravelBook_Button01a_4.png" id="9_domyo"]
 [ext_resource type="Texture2D" uid="uid://cx1htn6wf5hqd" path="res://assets/Complete_UI_Book_Styles_Pack_Free_v1.0/01_TravelBookLite/Sprites/UI_TravelBook_BookPageLeft01a.png" id="10_d1gsm"]
+[ext_resource type="Texture2D" uid="uid://0sx0ibl77vlh" path="res://assets/Complete_UI_Book_Styles_Pack_Free_v1.0/01_TravelBookLite/Sprites/UI_TravelBook_Frame01a.png" id="11_nywun"]
+[ext_resource type="Texture2D" uid="uid://cvnny6cbpqvle" path="res://assets/Complete_UI_Book_Styles_Pack_Free_v1.0/01_TravelBookLite/Sprites/UI_TravelBook_FrameSelect01a.png" id="12_5kl63"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_grlop"]
 atlas = ExtResource("2_fu1gu")
@@ -43,7 +48,7 @@ region = Rect2(192, 0, 32, 64)
 atlas = ExtResource("2_fu1gu")
 region = Rect2(224, 0, 32, 64)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_77wd3"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_qbid7"]
 animations = [{
 "frames": [{
 "duration": 1.0,
@@ -107,7 +112,7 @@ region = Rect2(1500, 0, 250, 250)
 atlas = ExtResource("3_xhoi3")
 region = Rect2(1750, 0, 250, 250)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_ecj7y"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_fu1gu"]
 animations = [{
 "frames": [{
 "duration": 1.0,
@@ -171,7 +176,7 @@ region = Rect2(960, 0, 160, 111)
 atlas = ExtResource("4_b270g")
 region = Rect2(1120, 0, 160, 111)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_u8m30"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_xhoi3"]
 animations = [{
 "frames": [{
 "duration": 1.0,
@@ -254,6 +259,171 @@ texture_margin_top = 15.0
 texture_margin_right = 15.0
 texture_margin_bottom = 15.0
 
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_xhoi3"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_nywun"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_5kl63"]
+texture = ExtResource("7_n4r88")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_n4r88"]
+texture = ExtResource("8_7efsd")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_7efsd"]
+texture = ExtResource("9_domyo")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_domyo"]
+texture = ExtResource("11_nywun")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_d1gsm"]
+texture = ExtResource("12_5kl63")
+texture_margin_top = 3.0
+texture_margin_bottom = 3.0
+region_rect = Rect2(-1, -1, 64, 15)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_nywun"]
+texture = ExtResource("5_xhoi3")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5kl63"]
+atlas = ExtResource("3_xhoi3")
+region = Rect2(86, 81, 95, 90)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n4r88"]
+atlas = ExtResource("3_xhoi3")
+region = Rect2(0, 0, 250, 250)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7efsd"]
+atlas = ExtResource("3_xhoi3")
+region = Rect2(250, 0, 250, 250)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_domyo"]
+atlas = ExtResource("3_xhoi3")
+region = Rect2(500, 0, 250, 250)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d1gsm"]
+atlas = ExtResource("3_xhoi3")
+region = Rect2(750, 0, 250, 250)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_77wd3"]
+atlas = ExtResource("3_xhoi3")
+region = Rect2(1000, 0, 250, 250)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ecj7y"]
+atlas = ExtResource("3_xhoi3")
+region = Rect2(1250, 0, 250, 250)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u8m30"]
+atlas = ExtResource("3_xhoi3")
+region = Rect2(1500, 0, 250, 250)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rx1hh"]
+atlas = ExtResource("3_xhoi3")
+region = Rect2(1750, 0, 250, 250)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_1wdfo"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n4r88")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7efsd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_domyo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d1gsm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_77wd3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ecj7y")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u8m30")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rx1hh")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1wdfo"]
+atlas = ExtResource("4_b270g")
+region = Rect2(42, 30, 79, 77)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_prqcr"]
+atlas = ExtResource("4_b270g")
+region = Rect2(0, 0, 160, 111)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8753h"]
+atlas = ExtResource("4_b270g")
+region = Rect2(160, 0, 160, 111)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6u86h"]
+atlas = ExtResource("4_b270g")
+region = Rect2(320, 0, 160, 111)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vsvy5"]
+atlas = ExtResource("4_b270g")
+region = Rect2(480, 0, 160, 111)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tarhn"]
+atlas = ExtResource("4_b270g")
+region = Rect2(640, 0, 160, 111)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3vaf5"]
+atlas = ExtResource("4_b270g")
+region = Rect2(800, 0, 160, 111)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tunfj"]
+atlas = ExtResource("4_b270g")
+region = Rect2(960, 0, 160, 111)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e5y47"]
+atlas = ExtResource("4_b270g")
+region = Rect2(1120, 0, 160, 111)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_rctot"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_prqcr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8753h")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6u86h")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vsvy5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tarhn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3vaf5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tunfj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e5y47")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yoy1n"]
+atlas = ExtResource("4_b270g")
+region = Rect2(42, 30, 79, 77)
+
 [sub_resource type="Animation" id="Animation_qbid7"]
 resource_name = "MenuMove"
 tracks/0/type = "value"
@@ -266,7 +436,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 1),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector2(-350, 51.5), Vector2(156, 51.5)]
+"values": [Vector2(-350, 81.5), Vector2(225, 81.5)]
 }
 
 [sub_resource type="Animation" id="Animation_fu1gu"]
@@ -326,6 +496,79 @@ _data = {
 &"RESET": SubResource("Animation_b270g")
 }
 
+[sub_resource type="Animation" id="Animation_5kl63"]
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MenuFrame/PageLeft/GridContainer:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1, 2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_nywun"]
+resource_name = "new_animation"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MenuFrame/PageLeft/GridContainer:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_n4r88"]
+_data = {
+&"RESET": SubResource("Animation_5kl63"),
+&"new_animation": SubResource("Animation_nywun")
+}
+
+[sub_resource type="Animation" id="Animation_domyo"]
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MenuFrame/PageRight/Panel:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1, 2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_7efsd"]
+resource_name = "new_animation"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MenuFrame/PageRight/Panel:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1, 2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_d1gsm"]
+_data = {
+&"RESET": SubResource("Animation_domyo"),
+&"new_animation": SubResource("Animation_7efsd")
+}
+
 [node name="CharacterSelectScene" type="Control"]
 layout_mode = 3
 anchors_preset = 15
@@ -333,6 +576,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_b270g")
 
 [node name="BackGround" type="TextureRect" parent="."]
 layout_mode = 1
@@ -348,21 +592,21 @@ texture = ExtResource("1_qbid7")
 stretch_mode = 1
 
 [node name="CampFire" type="AnimatedSprite2D" parent="."]
-position = Vector2(955, 517)
+position = Vector2(951, 595)
 scale = Vector2(2.79688, 2.67187)
-sprite_frames = SubResource("SpriteFrames_77wd3")
+sprite_frames = SubResource("SpriteFrames_qbid7")
 autoplay = "default"
 
-[node name="temp1" type="AnimatedSprite2D" parent="."]
-position = Vector2(818, 499)
+[node name="temp3" type="AnimatedSprite2D" parent="."]
+position = Vector2(847, 574)
 scale = Vector2(2.296, 1.988)
-sprite_frames = SubResource("SpriteFrames_ecj7y")
+sprite_frames = SubResource("SpriteFrames_fu1gu")
 autoplay = "default"
 
-[node name="temp2" type="AnimatedSprite2D" parent="."]
-position = Vector2(1043, 481)
+[node name="temp4" type="AnimatedSprite2D" parent="."]
+position = Vector2(1039, 558)
 scale = Vector2(1.82813, 1.98423)
-sprite_frames = SubResource("SpriteFrames_u8m30")
+sprite_frames = SubResource("SpriteFrames_xhoi3")
 autoplay = "default"
 flip_h = true
 
@@ -370,62 +614,9 @@ flip_h = true
 layout_mode = 0
 offset_left = -350.0
 offset_top = 51.5
-offset_right = 487.0
+offset_right = 480.0
 offset_bottom = 581.5
 texture = ExtResource("5_nywun")
-metadata/_edit_group_ = true
-
-[node name="PageRight" type="TextureRect" parent="MenuFrame"]
-layout_mode = 0
-offset_left = 417.0
-offset_top = 11.0
-offset_right = 806.0
-offset_bottom = 507.0
-pivot_offset = Vector2(198.012, 298.054)
-mouse_filter = 0
-texture = ExtResource("6_5kl63")
-
-[node name="ConfirmButton" type="Button" parent="MenuFrame/PageRight"]
-layout_mode = 0
-offset_left = -573.0
-offset_top = -62.5
-offset_right = -565.0
-offset_bottom = -54.5
-
-[node name="BackButton" type="Button" parent="MenuFrame/PageRight"]
-layout_mode = 0
-offset_left = -573.0
-offset_top = -62.5
-offset_right = -565.0
-offset_bottom = -54.5
-
-[node name="PageLeft" type="TextureRect" parent="MenuFrame"]
-layout_mode = 0
-offset_left = 22.0
-offset_top = 12.0
-offset_right = 412.0
-offset_bottom = 507.0
-pivot_offset = Vector2(190, 277.5)
-mouse_filter = 0
-texture = ExtResource("10_d1gsm")
-
-[node name="CharacterGrid" type="GridContainer" parent="MenuFrame/PageLeft"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 3.0
-offset_top = 3.5
-offset_right = -9.0
-offset_bottom = -2.5
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="Character1" type="TextureButton" parent="MenuFrame/PageLeft/CharacterGrid"]
-layout_mode = 2
-
-[node name="Character2" type="TextureButton" parent="MenuFrame/PageLeft/CharacterGrid"]
-layout_mode = 2
 
 [node name="PageRightAnimate" type="TextureRect" parent="MenuFrame"]
 layout_mode = 0
@@ -502,6 +693,321 @@ theme_override_styles/normal = SubResource("StyleBoxTexture_lpoc7")
 text = "(游戏标题)"
 horizontal_alignment = 1
 
+[node name="PageRight" type="TextureRect" parent="MenuFrame"]
+layout_mode = 0
+offset_left = 417.0
+offset_top = 11.0
+offset_right = 806.0
+offset_bottom = 507.0
+pivot_offset = Vector2(198.012, 298.054)
+mouse_filter = 0
+texture = ExtResource("6_5kl63")
+
+[node name="Panel" type="Panel" parent="MenuFrame/PageRight"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 0
+offset_left = 5.0
+offset_top = 9.0
+offset_right = 384.0
+offset_bottom = 472.0
+theme_override_styles/panel = SubResource("StyleBoxTexture_xhoi3")
+
+[node name="ConfirmButton" type="Button" parent="MenuFrame/PageRight/Panel"]
+layout_mode = 0
+offset_left = 30.0
+offset_top = 335.0
+offset_right = 180.0
+offset_bottom = 435.0
+theme_override_font_sizes/font_size = 36
+theme_override_styles/focus = SubResource("StyleBoxEmpty_nywun")
+theme_override_styles/hover = SubResource("StyleBoxTexture_5kl63")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_n4r88")
+theme_override_styles/normal = SubResource("StyleBoxTexture_7efsd")
+text = "确认"
+
+[node name="BackButton" type="Button" parent="MenuFrame/PageRight/Panel"]
+layout_mode = 0
+offset_left = 200.0
+offset_top = 335.0
+offset_right = 350.0
+offset_bottom = 435.0
+theme_override_font_sizes/font_size = 36
+theme_override_styles/focus = SubResource("StyleBoxEmpty_nywun")
+theme_override_styles/hover = SubResource("StyleBoxTexture_5kl63")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_n4r88")
+theme_override_styles/normal = SubResource("StyleBoxTexture_7efsd")
+text = "返回
+"
+
+[node name="CharacterPreview" type="AnimatedSprite2D" parent="MenuFrame/PageRight/Panel"]
+position = Vector2(96, 52.5)
+
+[node name="CharacterInfo" type="RichTextLabel" parent="MenuFrame/PageRight/Panel"]
+layout_mode = 0
+offset_left = 28.0
+offset_top = 202.0
+offset_right = 352.0
+offset_bottom = 327.0
+theme_override_styles/background = SubResource("StyleBoxTexture_domyo")
+theme_override_styles/normal = SubResource("StyleBoxTexture_d1gsm")
+
+[node name="PageLeft" type="TextureRect" parent="MenuFrame"]
+layout_mode = 0
+offset_left = 22.0
+offset_top = 12.0
+offset_right = 412.0
+offset_bottom = 507.0
+pivot_offset = Vector2(190, 277.5)
+mouse_filter = 0
+texture = ExtResource("10_d1gsm")
+
+[node name="GridContainer" type="GridContainer" parent="MenuFrame/PageLeft"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 0
+offset_left = 44.0
+offset_top = 29.5
+offset_right = 352.0
+offset_bottom = 434.5
+columns = 3
+metadata/_edit_group_ = true
+
+[node name="CharacterSlot" type="Panel" parent="MenuFrame/PageLeft/GridContainer"]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_nywun")
+script = ExtResource("6_b270g")
+Icon = SubResource("AtlasTexture_5kl63")
+Animation = SubResource("SpriteFrames_1wdfo")
+Description = "evil wizard
+"
+
+[node name="TextureButton" type="TextureButton" parent="MenuFrame/PageLeft/GridContainer/CharacterSlot"]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 3.0
+offset_right = 98.0
+offset_bottom = 102.0
+texture_normal = SubResource("AtlasTexture_5kl63")
+
+[node name="Line2D" type="Line2D" parent="MenuFrame/PageLeft/GridContainer/CharacterSlot"]
+visible = false
+points = PackedVector2Array(5, 6.5, 94, 6.5, 95, 94.5, 4, 94.5, 5, 6.5)
+width = 5.0
+default_color = Color(1, 0.803922, 0.317647, 1)
+
+[node name="CharacterSlot2" type="Panel" parent="MenuFrame/PageLeft/GridContainer"]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_nywun")
+script = ExtResource("6_b270g")
+Icon = SubResource("AtlasTexture_1wdfo")
+Animation = SubResource("SpriteFrames_rctot")
+Description = "Medieval King "
+
+[node name="TextureButton" type="TextureButton" parent="MenuFrame/PageLeft/GridContainer/CharacterSlot2"]
+layout_mode = 0
+offset_left = 6.0
+offset_top = 7.0
+offset_right = 97.0
+offset_bottom = 95.0
+texture_normal = SubResource("AtlasTexture_yoy1n")
+
+[node name="Line2D" type="Line2D" parent="MenuFrame/PageLeft/GridContainer/CharacterSlot2"]
+visible = false
+points = PackedVector2Array(5, 6.5, 94, 6.5, 95, 94.5, 4, 94.5, 5, 6.5)
+width = 5.0
+default_color = Color(1, 0.803922, 0.317647, 1)
+
+[node name="CharacterSlot3" type="Panel" parent="MenuFrame/PageLeft/GridContainer"]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_nywun")
+script = ExtResource("6_b270g")
+
+[node name="TextureButton" type="TextureButton" parent="MenuFrame/PageLeft/GridContainer/CharacterSlot3"]
+layout_mode = 0
+offset_left = 6.0
+offset_top = 7.0
+offset_right = 97.0
+offset_bottom = 95.0
+
+[node name="Line2D" type="Line2D" parent="MenuFrame/PageLeft/GridContainer/CharacterSlot3"]
+visible = false
+points = PackedVector2Array(5, 6.5, 94, 6.5, 95, 94.5, 4, 94.5, 5, 6.5)
+width = 5.0
+default_color = Color(1, 0.803922, 0.317647, 1)
+
+[node name="CharacterSlot4" type="Panel" parent="MenuFrame/PageLeft/GridContainer"]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_nywun")
+script = ExtResource("6_b270g")
+
+[node name="TextureButton" type="TextureButton" parent="MenuFrame/PageLeft/GridContainer/CharacterSlot4"]
+layout_mode = 0
+offset_left = 6.0
+offset_top = 7.0
+offset_right = 97.0
+offset_bottom = 95.0
+
+[node name="Line2D" type="Line2D" parent="MenuFrame/PageLeft/GridContainer/CharacterSlot4"]
+visible = false
+points = PackedVector2Array(5, 6.5, 94, 6.5, 95, 94.5, 4, 94.5, 5, 6.5)
+width = 5.0
+default_color = Color(1, 0.803922, 0.317647, 1)
+
+[node name="CharacterSlot5" type="Panel" parent="MenuFrame/PageLeft/GridContainer"]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_nywun")
+script = ExtResource("6_b270g")
+
+[node name="TextureButton" type="TextureButton" parent="MenuFrame/PageLeft/GridContainer/CharacterSlot5"]
+layout_mode = 0
+offset_left = 6.0
+offset_top = 7.0
+offset_right = 97.0
+offset_bottom = 95.0
+
+[node name="Line2D" type="Line2D" parent="MenuFrame/PageLeft/GridContainer/CharacterSlot5"]
+visible = false
+points = PackedVector2Array(5, 6.5, 94, 6.5, 95, 94.5, 4, 94.5, 5, 6.5)
+width = 5.0
+default_color = Color(1, 0.803922, 0.317647, 1)
+
+[node name="CharacterSlot6" type="Panel" parent="MenuFrame/PageLeft/GridContainer"]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_nywun")
+script = ExtResource("6_b270g")
+
+[node name="TextureButton" type="TextureButton" parent="MenuFrame/PageLeft/GridContainer/CharacterSlot6"]
+layout_mode = 0
+offset_left = 6.0
+offset_top = 7.0
+offset_right = 97.0
+offset_bottom = 95.0
+
+[node name="Line2D" type="Line2D" parent="MenuFrame/PageLeft/GridContainer/CharacterSlot6"]
+visible = false
+points = PackedVector2Array(5, 6.5, 94, 6.5, 95, 94.5, 4, 94.5, 5, 6.5)
+width = 5.0
+default_color = Color(1, 0.803922, 0.317647, 1)
+
+[node name="CharacterSlot7" type="Panel" parent="MenuFrame/PageLeft/GridContainer"]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_nywun")
+script = ExtResource("6_b270g")
+
+[node name="TextureButton" type="TextureButton" parent="MenuFrame/PageLeft/GridContainer/CharacterSlot7"]
+layout_mode = 0
+offset_left = 6.0
+offset_top = 7.0
+offset_right = 97.0
+offset_bottom = 95.0
+
+[node name="Line2D" type="Line2D" parent="MenuFrame/PageLeft/GridContainer/CharacterSlot7"]
+visible = false
+points = PackedVector2Array(5, 6.5, 94, 6.5, 95, 94.5, 4, 94.5, 5, 6.5)
+width = 5.0
+default_color = Color(1, 0.803922, 0.317647, 1)
+
+[node name="CharacterSlot8" type="Panel" parent="MenuFrame/PageLeft/GridContainer"]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_nywun")
+script = ExtResource("6_b270g")
+
+[node name="TextureButton" type="TextureButton" parent="MenuFrame/PageLeft/GridContainer/CharacterSlot8"]
+layout_mode = 0
+offset_left = 6.0
+offset_top = 7.0
+offset_right = 97.0
+offset_bottom = 95.0
+
+[node name="Line2D" type="Line2D" parent="MenuFrame/PageLeft/GridContainer/CharacterSlot8"]
+visible = false
+points = PackedVector2Array(5, 6.5, 94, 6.5, 95, 94.5, 4, 94.5, 5, 6.5)
+width = 5.0
+default_color = Color(1, 0.803922, 0.317647, 1)
+
+[node name="CharacterSlot9" type="Panel" parent="MenuFrame/PageLeft/GridContainer"]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_nywun")
+script = ExtResource("6_b270g")
+
+[node name="TextureButton" type="TextureButton" parent="MenuFrame/PageLeft/GridContainer/CharacterSlot9"]
+layout_mode = 0
+offset_left = 6.0
+offset_top = 7.0
+offset_right = 97.0
+offset_bottom = 95.0
+
+[node name="Line2D" type="Line2D" parent="MenuFrame/PageLeft/GridContainer/CharacterSlot9"]
+visible = false
+points = PackedVector2Array(5, 6.5, 94, 6.5, 95, 94.5, 4, 94.5, 5, 6.5)
+width = 5.0
+default_color = Color(1, 0.803922, 0.317647, 1)
+
+[node name="CharacterSlot10" type="Panel" parent="MenuFrame/PageLeft/GridContainer"]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_nywun")
+script = ExtResource("6_b270g")
+
+[node name="TextureButton" type="TextureButton" parent="MenuFrame/PageLeft/GridContainer/CharacterSlot10"]
+layout_mode = 0
+offset_left = 6.0
+offset_top = 7.0
+offset_right = 97.0
+offset_bottom = 95.0
+
+[node name="Line2D" type="Line2D" parent="MenuFrame/PageLeft/GridContainer/CharacterSlot10"]
+visible = false
+points = PackedVector2Array(5, 6.5, 94, 6.5, 95, 94.5, 4, 94.5, 5, 6.5)
+width = 5.0
+default_color = Color(1, 0.803922, 0.317647, 1)
+
+[node name="CharacterSlot11" type="Panel" parent="MenuFrame/PageLeft/GridContainer"]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_nywun")
+script = ExtResource("6_b270g")
+
+[node name="TextureButton" type="TextureButton" parent="MenuFrame/PageLeft/GridContainer/CharacterSlot11"]
+layout_mode = 0
+offset_left = 6.0
+offset_top = 7.0
+offset_right = 97.0
+offset_bottom = 95.0
+
+[node name="Line2D" type="Line2D" parent="MenuFrame/PageLeft/GridContainer/CharacterSlot11"]
+visible = false
+points = PackedVector2Array(5, 6.5, 94, 6.5, 95, 94.5, 4, 94.5, 5, 6.5)
+width = 5.0
+default_color = Color(1, 0.803922, 0.317647, 1)
+
+[node name="CharacterSlot12" type="Panel" parent="MenuFrame/PageLeft/GridContainer"]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_nywun")
+script = ExtResource("6_b270g")
+
+[node name="TextureButton" type="TextureButton" parent="MenuFrame/PageLeft/GridContainer/CharacterSlot12"]
+layout_mode = 0
+offset_left = 6.0
+offset_top = 7.0
+offset_right = 97.0
+offset_bottom = 95.0
+
+[node name="Line2D" type="Line2D" parent="MenuFrame/PageLeft/GridContainer/CharacterSlot12"]
+visible = false
+points = PackedVector2Array(5, 6.5, 94, 6.5, 95, 94.5, 4, 94.5, 5, 6.5)
+width = 5.0
+default_color = Color(1, 0.803922, 0.317647, 1)
+
 [node name="MenuMove" type="AnimationPlayer" parent="."]
 libraries = {
 &"": SubResource("AnimationLibrary_xhoi3")
@@ -513,3 +1019,30 @@ libraries = {
 &"": SubResource("AnimationLibrary_nywun")
 }
 autoplay = "MenuFadeOut"
+
+[node name="MenuFadeIn" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_n4r88")
+}
+autoplay = "new_animation"
+
+[node name="MenuFadeIn2" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_d1gsm")
+}
+autoplay = "new_animation"
+
+[connection signal="pressed" from="MenuFrame/PageRight/Panel/ConfirmButton" to="." method="_on_confirm_button_pressed"]
+[connection signal="pressed" from="MenuFrame/PageRight/Panel/BackButton" to="." method="_on_back_button_pressed"]
+[connection signal="pressed" from="MenuFrame/PageLeft/GridContainer/CharacterSlot/TextureButton" to="MenuFrame/PageLeft/GridContainer/CharacterSlot" method="_on_texture_button_pressed"]
+[connection signal="pressed" from="MenuFrame/PageLeft/GridContainer/CharacterSlot2/TextureButton" to="MenuFrame/PageLeft/GridContainer/CharacterSlot2" method="_on_texture_button_pressed"]
+[connection signal="pressed" from="MenuFrame/PageLeft/GridContainer/CharacterSlot3/TextureButton" to="MenuFrame/PageLeft/GridContainer/CharacterSlot3" method="_on_texture_button_pressed"]
+[connection signal="pressed" from="MenuFrame/PageLeft/GridContainer/CharacterSlot4/TextureButton" to="MenuFrame/PageLeft/GridContainer/CharacterSlot4" method="_on_texture_button_pressed"]
+[connection signal="pressed" from="MenuFrame/PageLeft/GridContainer/CharacterSlot5/TextureButton" to="MenuFrame/PageLeft/GridContainer/CharacterSlot5" method="_on_texture_button_pressed"]
+[connection signal="pressed" from="MenuFrame/PageLeft/GridContainer/CharacterSlot6/TextureButton" to="MenuFrame/PageLeft/GridContainer/CharacterSlot6" method="_on_texture_button_pressed"]
+[connection signal="pressed" from="MenuFrame/PageLeft/GridContainer/CharacterSlot7/TextureButton" to="MenuFrame/PageLeft/GridContainer/CharacterSlot7" method="_on_texture_button_pressed"]
+[connection signal="pressed" from="MenuFrame/PageLeft/GridContainer/CharacterSlot8/TextureButton" to="MenuFrame/PageLeft/GridContainer/CharacterSlot8" method="_on_texture_button_pressed"]
+[connection signal="pressed" from="MenuFrame/PageLeft/GridContainer/CharacterSlot9/TextureButton" to="MenuFrame/PageLeft/GridContainer/CharacterSlot9" method="_on_texture_button_pressed"]
+[connection signal="pressed" from="MenuFrame/PageLeft/GridContainer/CharacterSlot10/TextureButton" to="MenuFrame/PageLeft/GridContainer/CharacterSlot10" method="_on_texture_button_pressed"]
+[connection signal="pressed" from="MenuFrame/PageLeft/GridContainer/CharacterSlot11/TextureButton" to="MenuFrame/PageLeft/GridContainer/CharacterSlot11" method="_on_texture_button_pressed"]
+[connection signal="pressed" from="MenuFrame/PageLeft/GridContainer/CharacterSlot12/TextureButton" to="MenuFrame/PageLeft/GridContainer/CharacterSlot12" method="_on_texture_button_pressed"]

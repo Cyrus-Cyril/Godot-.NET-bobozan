@@ -269,7 +269,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 1, 1.25, 2.25, 2.5),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1),
 "update": 0,
-"values": [Vector2(-350, 51.5), Vector2(-350, 60), Vector2(-350, 58.5), Vector2(-350, 50), Vector2(-350, 51.5)]
+"values": [Vector2(-350, 81.5), Vector2(-350, 90), Vector2(-350, 88.5), Vector2(-350, 80), Vector2(-350, 81.5)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -440,21 +440,21 @@ texture = ExtResource("2_otnic")
 stretch_mode = 1
 
 [node name="CampFire" type="AnimatedSprite2D" parent="."]
-position = Vector2(955, 517)
+position = Vector2(951, 595)
 scale = Vector2(2.79688, 2.67187)
 sprite_frames = SubResource("SpriteFrames_hr0f4")
 autoplay = "default"
 frame_progress = 0.899537
 
 [node name="temp1" type="AnimatedSprite2D" parent="."]
-position = Vector2(818, 499)
+position = Vector2(847, 574)
 scale = Vector2(2.296, 1.988)
 sprite_frames = SubResource("SpriteFrames_ki5cs")
 autoplay = "default"
 frame_progress = 0.280442
 
 [node name="temp2" type="AnimatedSprite2D" parent="."]
-position = Vector2(1043, 481)
+position = Vector2(1039, 558)
 scale = Vector2(1.82813, 1.98423)
 sprite_frames = SubResource("SpriteFrames_81o7s")
 autoplay = "default"
@@ -463,11 +463,12 @@ flip_h = true
 
 [node name="MenuFrame" type="TextureRect" parent="."]
 layout_mode = 0
-offset_left = -350.0
-offset_top = 51.5
-offset_right = 487.0
-offset_bottom = 581.5
+offset_left = -348.0
+offset_top = 33.0
+offset_right = 482.0
+offset_bottom = 563.0
 texture = ExtResource("3_anyyc")
+metadata/_edit_group_ = true
 
 [node name="PageRight" type="TextureRect" parent="MenuFrame"]
 layout_mode = 0
