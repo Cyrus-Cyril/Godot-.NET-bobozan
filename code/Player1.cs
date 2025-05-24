@@ -11,16 +11,23 @@ public partial class Player1 : CharacterBody2D
 	[Export] public PackedScene DefendScene;
 	[Export] public PackedScene ReboundScene;
 	[Export] public int MaxMP { get; set; } = 100;
+	[Export] public int MaxHP { get; set; } = 10;
+	[Export] public StatusPanel StatusUI;
+		
 	public int MP { get; set; } = 0;
+
 
 	public AnimatedSprite2D sprite;
 	private string pendingAction = null;
 	private List<int> waveBuffer = new();
 	private bool actionChosen = false;
 
+	
 	public override void _Ready()
 	{
 		sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+		StatusUI.UpdateHP(HP, MaxHP);
+		
 		sprite.AnimationFinished += OnAnimationFinished;
 	}
 
@@ -85,6 +92,8 @@ public partial class Player1 : CharacterBody2D
 		sprite.Play("hit");
 		HP -= damage;
 		GD.Print($"HP: {HP}");
+		StatusUI.UpdateHP(HP, MaxHP);
+		
 		if (HP <= 0) Die();
 	}
 

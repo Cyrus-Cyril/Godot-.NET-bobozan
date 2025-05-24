@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://brk7tvao5swar"]
+[gd_scene load_steps=16 format=3 uid="uid://brk7tvao5swar"]
 
 [ext_resource type="Script" uid="uid://crvsyk21uvc66" path="res://code/Gamescene.cs" id="1_og0yp"]
 [ext_resource type="Texture2D" uid="uid://b8ieooq5om034" path="res://assets/Free Pixel Art Forest/PNG/bl_1280_720/Layer_0011_0.png" id="2_t483j"]
@@ -13,7 +13,6 @@
 [ext_resource type="Texture2D" uid="uid://ckgykwfw2mjae" path="res://assets/Free Pixel Art Forest/PNG/bl_1280_720/Layer_0002_7.png" id="9_st4vc"]
 [ext_resource type="Texture2D" uid="uid://bkmkt0l0kahhp" path="res://assets/Free Pixel Art Forest/PNG/bl_1280_720/Layer_0001_8.png" id="10_usa22"]
 [ext_resource type="Texture2D" uid="uid://djxegug7r1rjr" path="res://assets/Free Pixel Art Forest/PNG/bl_1280_720/Layer_0000_9.png" id="11_cdrhj"]
-[ext_resource type="PackedScene" uid="uid://bp87gc6gc6j7c" path="res://scenes/bullets/rebound.tscn" id="14_3jbqm"]
 [ext_resource type="PackedScene" uid="uid://djh7elksssgkd" path="res://scenes/GameScene/turn_manager.tscn" id="14_s7wxe"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_eek1s"]
@@ -119,7 +118,6 @@ position_smoothing_enabled = true
 [node name="Player2" parent="." instance=ExtResource("4_hetm2")]
 position = Vector2(648, 256)
 scale = Vector2(5.07, 3.80068)
-ReboundScene = ExtResource("14_3jbqm")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 
