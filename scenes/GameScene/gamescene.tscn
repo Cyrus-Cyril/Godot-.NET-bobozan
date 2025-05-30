@@ -116,7 +116,7 @@ position = Vector2(755.258, 263.104)
 position_smoothing_enabled = true
 
 [node name="Player2" parent="." instance=ExtResource("4_hetm2")]
-position = Vector2(648, 256)
+position = Vector2(1999, 247)
 scale = Vector2(5.07, 3.80068)
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
