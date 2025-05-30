@@ -11,6 +11,9 @@ public partial class Player2 : CharacterBody2D
 	[Export] public PackedScene DefendScene;
 	[Export] public PackedScene ReboundScene;
 	[Export] public int MaxMP { get; set; } = 100;
+	[Export] public int MaxHP { get; set; } = 10;
+	[Export] public StatusPanel StatusUI;
+
 	public int MP { get; set; } = 0;
 
 	public AnimatedSprite2D sprite;
@@ -21,6 +24,8 @@ public partial class Player2 : CharacterBody2D
 	public override void _Ready()
 	{
 		sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+		StatusUI.UpdateHP(HP, MaxHP);
+		
 		sprite.AnimationFinished += OnAnimationFinished;
 	}
 
@@ -86,6 +91,7 @@ public partial class Player2 : CharacterBody2D
 		sprite.Play("hit");
 		HP -= damage;
 		GD.Print("HP: " + HP);
+		StatusUI.UpdateHP(HP, MaxHP);
 		if (HP <= 0) Die();
 	}
 
@@ -93,5 +99,8 @@ public partial class Player2 : CharacterBody2D
 	{
 		GD.Print("Player2 died!");
 		sprite.Play("death");
+		
+		if (IsInstanceValid(StatusUI))
+			StatusUI.QueueFree();
 	}
 }

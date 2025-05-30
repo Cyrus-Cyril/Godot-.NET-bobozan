@@ -13,7 +13,7 @@ public partial class BattleManager : Node
 
 	private bool p1Locked = false;
 	private bool p2Locked = false;
-	
+
 	private Timer cleanupTimer = null;
 
 	public override void _Ready()

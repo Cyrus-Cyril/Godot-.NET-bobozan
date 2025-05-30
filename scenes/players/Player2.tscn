@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=3 uid="uid://bj2eo16pbs1i2"]
+[gd_scene load_steps=38 format=3 uid="uid://bj2eo16pbs1i2"]
 
 [ext_resource type="Script" uid="uid://d1i8ghn3ext70" path="res://code/Player2.cs" id="1_2eka7"]
 [ext_resource type="Texture2D" uid="uid://xn4g2ug8mcb5" path="res://assets/Medieval King Pack 2/Sprites/Attack1.png" id="1_lvqbx"]
@@ -9,7 +9,10 @@
 [ext_resource type="PackedScene" uid="uid://0vepk26rkwsf" path="res://scenes/bullets/l_bullet.tscn" id="4_dkj32"]
 [ext_resource type="Texture2D" uid="uid://ddw5u1ytnhooi" path="res://assets/Medieval King Pack 2/Sprites/Idle.png" id="4_k8vue"]
 [ext_resource type="PackedScene" uid="uid://ru0l76v5xg8k" path="res://scenes/bullets/defend.tscn" id="5_dkj32"]
-[ext_resource type="PackedScene" uid="uid://bp87gc6gc6j7c" path="res://scenes/bullets/rebound.tscn" id="6_tsske"]
+[ext_resource type="PackedScene" uid="uid://bp87gc6gc6j7c" path="res://scenes/bullets/rebound.tscn" id="6_dkj32"]
+[ext_resource type="PackedScene" uid="uid://lpkxsf4etvfy" path="res://scenes/ui/status_panel.tscn" id="11_tsske"]
+[ext_resource type="Texture2D" uid="uid://0liksccxwumo" path="res://assets/Complete_UI_Book_Styles_Pack_Free_v1.0/01_TravelBookLite/Sprites/UI_TravelBook_IconHeart01a.png" id="12_00j5h"]
+[ext_resource type="Texture2D" uid="uid://dc3okrxw1n6xn" path="res://assets/Complete_UI_Book_Styles_Pack_Free_v1.0/01_TravelBookLite/Sprites/UI_TravelBook_IconHeart01i.png" id="13_jugqb"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_1imka"]
 atlas = ExtResource("1_lvqbx")
@@ -192,14 +195,15 @@ animations = [{
 radius = 11.0
 height = 50.0
 
-[node name="Player2" type="CharacterBody2D"]
+[node name="Player2" type="CharacterBody2D" node_paths=PackedStringArray("StatusUI")]
 scale = Vector2(1.5002, 1.28408)
 script = ExtResource("1_2eka7")
 SmallBulletScene = ExtResource("2_tknkp")
 MediumBulletScene = ExtResource("3_1qw7d")
 LargeBulletScene = ExtResource("4_dkj32")
 DefendScene = ExtResource("5_dkj32")
-ReboundScene = ExtResource("6_tsske")
+ReboundScene = ExtResource("6_dkj32")
+StatusUI = NodePath("CanvasLayer/StatusPanel")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(79.9896, 56.0712)
@@ -211,3 +215,11 @@ flip_h = true
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(74.6569, 80.9917)
 shape = SubResource("CapsuleShape2D_g4gp1")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="StatusPanel" parent="CanvasLayer" instance=ExtResource("11_tsske")]
+offset_left = 896.0
+offset_right = 896.0
+FullHeart = ExtResource("12_00j5h")
+EmptyHeart = ExtResource("13_jugqb")

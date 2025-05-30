@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://lpkxsf4etvfy"]
+
+[ext_resource type="Script" uid="uid://dol1rgpo0w3bl" path="res://code/StatusPanel.cs" id="1_7ugt6"]
+
+[node name="StatusPanel" type="HBoxContainer"]
+script = ExtResource("1_7ugt6")
