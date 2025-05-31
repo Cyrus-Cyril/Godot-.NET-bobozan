@@ -10,9 +10,13 @@ public partial class Player2 : CharacterBody2D
 	[Export] public PackedScene LargeBulletScene;
 	[Export] public PackedScene DefendScene;
 	[Export] public PackedScene ReboundScene;
-	[Export] public int MaxMP { get; set; } = 100;
+	[Export] public int MaxMP { get; set; } = 15;
 	[Export] public int MaxHP { get; set; } = 10;
-	[Export] public StatusPanel StatusUI;
+	[Export] public NodePath StatusUIPath;
+	[Export] public NodePath ActionPreviewPath;
+	private ActionPreview ActionUI;
+	private StatusPanel StatusUI;
+
 
 	public int MP { get; set; } = 0;
 
@@ -24,7 +28,10 @@ public partial class Player2 : CharacterBody2D
 	public override void _Ready()
 	{
 		sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+		StatusUI = GetNode<StatusPanel>(StatusUIPath);
+		ActionUI = GetNode<ActionPreview>(ActionPreviewPath);
 		StatusUI.UpdateHP(HP, MaxHP);
+		StatusUI.UpdateMP(MP, MaxMP);
 		
 		sprite.AnimationFinished += OnAnimationFinished;
 	}
@@ -34,18 +41,40 @@ public partial class Player2 : CharacterBody2D
 		if (sprite.Animation == "hit" || sprite.Animation == "attack")
 			sprite.Play("idle");
 	}
-
+	
+	private string GetActionPreviewText()
+	{
+		if (pendingAction == "wave" || waveBuffer.Count > 0)
+		{
+			var waveNames = new List<string>();
+			foreach (int w in waveBuffer)
+			{
+				if (w == 1) waveNames.Add("S_B");
+				else if (w == 2) waveNames.Add("M_B");
+				else if (w == 3) waveNames.Add("L_B");
+			}
+			return "" + string.Join("+", waveNames);
+		}
+		else if (pendingAction == "charge") return "Charge";
+		else if (pendingAction == "defend") return "Defend";
+		else if (pendingAction == "rebound") return "Reflect";
+	
+		return "";
+	}
+	
 	public override void _Process(double delta)
 	{
 		if (actionChosen) return;
 
+		ActionUI.ShowPreview(GetActionPreviewText());
+		
 		if (Input.IsActionJustPressed("fire_small_wave_p2")) waveBuffer.Add(1);
 		if (Input.IsActionJustPressed("fire_medium_wave_p2")) waveBuffer.Add(2);
 		if (Input.IsActionJustPressed("fire_large_wave_p2")) waveBuffer.Add(3);
 
 		if (Input.IsActionJustPressed("charge_p2")) pendingAction = "charge";
 		if (Input.IsActionJustPressed("defend_p2")) pendingAction = "defend";
-		if (Input.IsActionJustPressed("rebound_p2") && MP >= 1) pendingAction = "rebound";
+		if (Input.IsActionJustPressed("rebound_p2")) pendingAction = "rebound";
 
 		if (Input.IsActionJustPressed("confirm_action_p2"))
 		{
@@ -58,6 +87,7 @@ public partial class Player2 : CharacterBody2D
 				{
 					pendingAction = "wave";
 					actionChosen = true;
+					ActionUI.ShowPreview(GetActionPreviewText(), true);
 				}
 				else
 				{
@@ -68,11 +98,26 @@ public partial class Player2 : CharacterBody2D
 			}
 			else if (!string.IsNullOrEmpty(pendingAction))
 			{
+				if (pendingAction == "rebound" && MP < 1)
+				{
+					GD.Print("MP不足，不能反弹");
+					pendingAction = null;
+					ActionUI.ShowPreview("");
+					return;
+				}
+				
 				actionChosen = true;
+				ActionUI.ShowPreview(GetActionPreviewText(), true);
 			}
 		}
 	}
 
+	public void UpdateUI()
+	{
+		StatusUI.UpdateHP(HP, MaxHP);
+		StatusUI.UpdateMP(MP, MaxMP);
+	}
+	
 	public PlayerAction GetAction()
 	{
 		if (!actionChosen) return null;

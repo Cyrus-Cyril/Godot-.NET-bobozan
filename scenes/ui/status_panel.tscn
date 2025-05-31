@@ -1,6 +1,21 @@
-[gd_scene load_steps=2 format=3 uid="uid://lpkxsf4etvfy"]
+[gd_scene load_steps=6 format=3 uid="uid://lpkxsf4etvfy"]
 
 [ext_resource type="Script" uid="uid://dol1rgpo0w3bl" path="res://code/StatusPanel.cs" id="1_7ugt6"]
+[ext_resource type="Texture2D" uid="uid://0liksccxwumo" path="res://assets/Complete_UI_Book_Styles_Pack_Free_v1.0/01_TravelBookLite/Sprites/UI_TravelBook_IconHeart01a.png" id="2_fcqgw"]
+[ext_resource type="Texture2D" uid="uid://dc3okrxw1n6xn" path="res://assets/Complete_UI_Book_Styles_Pack_Free_v1.0/01_TravelBookLite/Sprites/UI_TravelBook_IconHeart01i.png" id="3_6xie1"]
+[ext_resource type="Texture2D" uid="uid://bbyie2moh7aba" path="res://assets/Complete_UI_Book_Styles_Pack_Free_v1.0/01_TravelBookLite/Sprites/UI_TravelBook_IconEnergy01a.png" id="4_g4y0c"]
+[ext_resource type="Texture2D" uid="uid://c0dyevjl0insl" path="res://assets/Complete_UI_Book_Styles_Pack_Free_v1.0/01_TravelBookLite/Sprites/UI_TravelBook_IconEnergy01g.png" id="5_7312f"]
 
-[node name="StatusPanel" type="HBoxContainer"]
+[node name="StatusPanel" type="VBoxContainer"]
+offset_bottom = 4.0
 script = ExtResource("1_7ugt6")
+FullHeart = ExtResource("2_fcqgw")
+EmptyHeart = ExtResource("3_6xie1")
+FullFlash = ExtResource("4_g4y0c")
+EmptyFlash = ExtResource("5_7312f")
+
+[node name="HPBar" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="MPBar" type="HBoxContainer" parent="."]
+layout_mode = 2

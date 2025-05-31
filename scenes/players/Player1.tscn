@@ -12,8 +12,8 @@
 [ext_resource type="Texture2D" uid="uid://ddipje5dqwfqb" path="res://assets/EVil Wizard 2/Sprites/Idle.png" id="6_t3qtu"]
 [ext_resource type="PackedScene" uid="uid://bp87gc6gc6j7c" path="res://scenes/bullets/rebound.tscn" id="6_vwh6q"]
 [ext_resource type="PackedScene" uid="uid://lpkxsf4etvfy" path="res://scenes/ui/status_panel.tscn" id="12_vwh6q"]
-[ext_resource type="Texture2D" uid="uid://0liksccxwumo" path="res://assets/Complete_UI_Book_Styles_Pack_Free_v1.0/01_TravelBookLite/Sprites/UI_TravelBook_IconHeart01a.png" id="13_vo66m"]
-[ext_resource type="Texture2D" uid="uid://dc3okrxw1n6xn" path="res://assets/Complete_UI_Book_Styles_Pack_Free_v1.0/01_TravelBookLite/Sprites/UI_TravelBook_IconHeart01i.png" id="14_h1iox"]
+[ext_resource type="Script" uid="uid://dah6sy4728gh2" path="res://code/ActionPreview.cs" id="13_5wsbf"]
+[ext_resource type="FontFile" uid="uid://qdvsi7knnoxb" path="res://assets/fonts/ark-pixel-16px-monospaced-zh_cn.otf" id="14_vo66m"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_van65"]
 atlas = ExtResource("3_8r5gt")
@@ -285,7 +285,7 @@ animations = [{
 radius = 40.0
 height = 130.456
 
-[node name="Player1" type="CharacterBody2D" node_paths=PackedStringArray("StatusUI")]
+[node name="Player1" type="CharacterBody2D"]
 scale = Vector2(0.687125, 0.689889)
 script = ExtResource("1_qohf6")
 SmallBulletScene = ExtResource("2_8p2l8")
@@ -293,7 +293,8 @@ MediumBulletScene = ExtResource("3_ep6wn")
 LargeBulletScene = ExtResource("4_yrv7w")
 DefendScene = ExtResource("5_ll2nl")
 ReboundScene = ExtResource("6_vwh6q")
-StatusUI = NodePath("CanvasLayer/StatusPanel")
+StatusUIPath = NodePath("CanvasLayer/StatusPanel")
+ActionPreviewPath = NodePath("ActionPreview")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(524, 366)
@@ -311,5 +312,19 @@ shape = SubResource("CapsuleShape2D_jxcr8")
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="StatusPanel" parent="CanvasLayer" instance=ExtResource("12_vwh6q")]
-FullHeart = ExtResource("13_vo66m")
-EmptyHeart = ExtResource("14_h1iox")
+
+[node name="ActionPreview" type="CanvasLayer" parent="."]
+script = ExtResource("13_5wsbf")
+
+[node name="PreviewBox" type="Panel" parent="ActionPreview"]
+offset_left = 96.0
+offset_top = 528.0
+offset_right = 136.0
+offset_bottom = 568.0
+
+[node name="PreviewText" type="Label" parent="ActionPreview/PreviewBox"]
+layout_mode = 0
+offset_top = -3.05176e-05
+offset_right = 40.0
+offset_bottom = 23.0
+theme_override_fonts/font = ExtResource("14_vo66m")

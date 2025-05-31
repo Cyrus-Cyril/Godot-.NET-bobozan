@@ -4,7 +4,7 @@ using System;
 public partial class Bullet : Area2D
 {
 	[Export]
-	public float Speed = 600.0f;
+	public float Speed = 900.0f;
 
 	// 方向：1 向右，-1 向左
 	[Export]
@@ -12,9 +12,6 @@ public partial class Bullet : Area2D
 
 	public virtual int Damage { get; set; } = 1;
 	public virtual int MPCost => 0;
-	// 标记当前的目标是谁,默认Player2
-	[Export]
-	public string Target = "Player2";
 
 	public override void _Ready()
 	{
@@ -40,23 +37,17 @@ public partial class Bullet : Area2D
 		if (this is SBullet) return 1;
 		if (this is MBullet) return 2;
 		if (this is LBullet) return 3;
-		return 0; // 默认不识别
+		return 0;
 	}
-	
+
 	private void OnAreaEntered(Area2D area)
 	{
 		GD.Print("Area Entered: " + area.Name);
+
 		if (area is Rebound rebound)
 		{
-			if (Target == "Player1")
-				Target = "Player2";
-			else if (Target == "Player2")
-				Target = "Player1";	
-
-			// 反转子弹方向
 			Direction *= -1;
 
-			// 反转贴图方向
 			var sprite = GetNodeOrNull<Sprite2D>("Sprite2D");
 			if (sprite != null)
 				sprite.FlipH = Direction < 0;
@@ -65,10 +56,11 @@ public partial class Bullet : Area2D
 			if (animSprite != null)
 				animSprite.FlipH = Direction < 0;
 
+			rebound.QueueFree();
 			GD.Print("Bullet rebound!");
 			return;
 		}
-		// 防御逻辑（Bullet vs Defend）
+
 		if (area is Defend)
 		{
 			int level = GetBulletLevel();
@@ -76,7 +68,7 @@ public partial class Bullet : Area2D
 			{
 				QueueFree();
 			}
-			else if(level==2)
+			else if (level == 2)
 			{
 				QueueFree();
 				area.QueueFree();
@@ -87,7 +79,7 @@ public partial class Bullet : Area2D
 			}
 			return;
 		}
-		
+
 		if (area is Bullet otherBullet)
 		{
 			int myLevel = GetBulletLevel();
@@ -108,17 +100,31 @@ public partial class Bullet : Area2D
 			}
 		}
 	}
-	
+
 	private void OnBodyEntered(Node body)
 	{
-		if (body.Name == Target)
+		// 如果是向右发射，目标是 Player2 或 AiPlayer
+		if (Direction > 0)
+		{
+			if (body is Player2 p2)
+			{
+				p2.TakeDamage(Damage);
+				QueueFree();
+			}
+			else if (body is AiPlayer ai)
+			{
+				ai.TakeDamage(Damage);
+				QueueFree();
+			}
+		}
+		// 如果是向左发射，目标是 Player1
+		else if (Direction < 0)
 		{
 			if (body is Player1 p1)
+			{
 				p1.TakeDamage(Damage);
-			else if (body is Player2 p2)
-				p2.TakeDamage(Damage);
-	
-			QueueFree();
+				QueueFree();
+			}
 		}
 	}
-}	
+}

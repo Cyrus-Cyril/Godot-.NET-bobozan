@@ -74,16 +74,18 @@ public partial class BattleManager : Node
 				if (player is Player1 p1 && p1.MP >= w)
 				{
 					p1.MP -= w;
+					p1.UpdateUI();
 				}
 				else if (player is Player2 p2 && p2.MP >= w)
 				{
 					p2.MP -= w;
+					p2.UpdateUI();
 				}
 				else continue;
 
 				Bullet bullet = scene.Instantiate<Bullet>();
 				bullet.Direction = direction;
-				bullet.Target = target;
+				//bullet.Target = target;
 				bullet.GlobalPosition = position;
 				AddChild(bullet);
 
@@ -95,8 +97,8 @@ public partial class BattleManager : Node
 	{
 		GD.Print("--- 发招阶段 ---");
 
-		if (a1.Type == "charge") player1.MP = Math.Min(player1.MaxMP, player1.MP + 1);
-		if (a2.Type == "charge") player2.MP = Math.Min(player2.MaxMP, player2.MP + 1);
+		if (a1.Type == "charge") {player1.MP = Math.Min(player1.MaxMP, player1.MP + 1); player1.UpdateUI();}
+		if (a2.Type == "charge") {player2.MP = Math.Min(player2.MaxMP, player2.MP + 1); player2.UpdateUI();}
 
 		if (a1.Type == "rebound" && player1.ReboundScene != null)
 		{
@@ -109,6 +111,7 @@ public partial class BattleManager : Node
 				AddChild(rebound);
 			}
 			player1.MP -= 1;
+			player1.UpdateUI();
 		}
 
 		if (a2.Type == "rebound" && player2.ReboundScene != null)
@@ -122,6 +125,7 @@ public partial class BattleManager : Node
 				AddChild(rebound);
 			}
 			player2.MP -= 1;
+			player2.UpdateUI();
 		}
 
 		if (a1.Type == "defend" && player1.DefendScene != null)
