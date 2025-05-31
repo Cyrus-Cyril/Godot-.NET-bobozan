@@ -122,7 +122,12 @@ public partial class Bullet : Area2D
 		{
 			if (body is Player1 p1)
 			{
-				p1.TakeDamage(Damage);
+		   		p1.TakeDamage(Damage);
+		   		QueueFree();
+			}
+			else if (body is Player1Ai p1ai)
+			{
+				p1ai.TakeDamage(Damage);
 				QueueFree();
 			}
 		}

@@ -15,12 +15,34 @@ public partial class BattleManager : Node
 	private bool p2Locked = false;
 
 	private Timer cleanupTimer = null;
+	
+	private Button restartButton;
 
 	public override void _Ready()
 	{
 		player1 = GetNode<Player1>("../Player1");
 		player2 = GetNode<Player2>("../Player2");
+		restartButton = GetNode<Button>("../CanvasLayer/RestartButton");
+		restartButton.Pressed += OnRestartButtonPressed;
 		ResetRound();
+	}
+	
+	private void OnRestartButtonPressed()
+	{
+		// 重置 HP/MP
+		player1.HP = player1.MaxHP;
+		player1.MP = 0;
+		player1.UpdateUI();
+
+		player2.HP = player2.MaxHP;
+		player2.MP = 0;
+		player2.UpdateUI();
+		
+		player1.sprite.Play("idle");
+		player2.sprite.Play("idle");
+		ResetRound();
+		
+		GD.Print("已重置双方HP/MP，并保存到数据库");
 	}
 
 	public override void _Process(double delta)
@@ -176,6 +198,14 @@ public partial class BattleManager : Node
 		AddChild(cleanupTimer);
 		cleanupTimer.Timeout += OnDelayedCleanup;
 		cleanupTimer.Start();
+		
+		if (DatabaseManager.Instance != null)
+		{
+			DatabaseManager.Instance.SaveBattleState(
+				"Player1", player1.HP, player1.MP, player1.MaxHP, player1.MaxMP,
+				"Player2", player2.HP, player2.MP, player2.MaxHP, player2.MaxMP
+			);
+		}
 	}
 	
 	private PackedScene GetWaveScene(object player, int level)

@@ -1,6 +1,7 @@
-[gd_scene load_steps=16 format=3 uid="uid://brk7tvao5swar"]
+[gd_scene load_steps=18 format=3 uid="uid://brk7tvao5swar"]
 
 [ext_resource type="Script" uid="uid://crvsyk21uvc66" path="res://code/Gamescene.cs" id="1_og0yp"]
+[ext_resource type="PackedScene" uid="uid://bhfygqqs4a3dj" path="res://scenes/GameScene/database_manager.tscn" id="2_4argo"]
 [ext_resource type="Texture2D" uid="uid://b8ieooq5om034" path="res://assets/Free Pixel Art Forest/PNG/bl_1280_720/Layer_0011_0.png" id="2_t483j"]
 [ext_resource type="Texture2D" uid="uid://1vs83pf5jqfe" path="res://assets/Free Pixel Art Forest/PNG/bl_1280_720/Layer_0010_1.png" id="3_s7wxe"]
 [ext_resource type="PackedScene" uid="uid://boyjp3v54rdfo" path="res://scenes/players/Player1.tscn" id="3_yrhak"]
@@ -13,6 +14,7 @@
 [ext_resource type="Texture2D" uid="uid://ckgykwfw2mjae" path="res://assets/Free Pixel Art Forest/PNG/bl_1280_720/Layer_0002_7.png" id="9_st4vc"]
 [ext_resource type="Texture2D" uid="uid://bkmkt0l0kahhp" path="res://assets/Free Pixel Art Forest/PNG/bl_1280_720/Layer_0001_8.png" id="10_usa22"]
 [ext_resource type="Texture2D" uid="uid://djxegug7r1rjr" path="res://assets/Free Pixel Art Forest/PNG/bl_1280_720/Layer_0000_9.png" id="11_cdrhj"]
+[ext_resource type="FontFile" uid="uid://qdvsi7knnoxb" path="res://assets/fonts/ark-pixel-16px-monospaced-zh_cn.otf" id="14_3jbqm"]
 [ext_resource type="PackedScene" uid="uid://djh7elksssgkd" path="res://scenes/GameScene/turn_manager.tscn" id="14_s7wxe"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_eek1s"]
@@ -20,6 +22,8 @@ distance = -205.0
 
 [node name="gamescene" type="Node2D"]
 script = ExtResource("1_og0yp")
+
+[node name="DatabaseManager" parent="." instance=ExtResource("2_4argo")]
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
 
@@ -124,5 +128,19 @@ scale = Vector2(5.07, 3.80068)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
 position = Vector2(640, 456)
 shape = SubResource("WorldBoundaryShape2D_eek1s")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="RestartButton" type="Button" parent="CanvasLayer"]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -37.5
+offset_right = 37.5
+offset_bottom = 31.0
+grow_horizontal = 2
+scale = Vector2(2, 2)
+theme_override_fonts/font = ExtResource("14_3jbqm")
+text = "RESTART"
 
 [node name="BattleManager" parent="." instance=ExtResource("14_s7wxe")]

@@ -23,19 +23,48 @@ public partial class AiPlayer : CharacterBody2D
 	private bool actionChosen = false;
 	private Random random = new();
 
-	public void UpdateUI()
-	{
-		StatusUI.UpdateHP(HP, MaxHP);
-		StatusUI.UpdateMP(MP, MaxMP);
-	}
-	
 	public override void _Ready()
 	{
 		sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 		StatusUI = GetNode<StatusPanel>(StatusUIPath);
+		
+		// 从数据库加载AI数据
+		LoadPlayerData();
+		
 		StatusUI.UpdateHP(HP, MaxHP);
 		StatusUI.UpdateMP(MP, MaxMP);
 		sprite.AnimationFinished += OnAnimationFinished;
+	}
+	
+	private void LoadPlayerData()
+	{
+		if (DatabaseManager.Instance != null)
+		{
+			var stats = DatabaseManager.Instance.LoadPlayerStats("AiPlayer");
+			HP = stats.HP;
+			MP = stats.MP;
+			MaxHP = stats.MaxHP;
+			MaxMP = stats.MaxMP;
+			
+			GD.Print($"已加载 AiPlayer 数据: HP={HP}, MP={MP}");
+		}
+	}
+	
+	public void SavePlayerData()
+	{
+		if (DatabaseManager.Instance != null)
+		{
+			DatabaseManager.Instance.SavePlayerStats("AiPlayer", HP, MP, MaxHP, MaxMP);
+		}
+	}
+
+	public void UpdateUI()
+	{
+		StatusUI.UpdateHP(HP, MaxHP);
+		StatusUI.UpdateMP(MP, MaxMP);
+		
+		// 每次UI更新时保存数据
+		SavePlayerData();
 	}
 
 	private void OnAnimationFinished()
@@ -66,7 +95,7 @@ public partial class AiPlayer : CharacterBody2D
 				int w = random.Next(1, Math.Min(mp, 3) + 1);
 				waveBuffer.Add(w);
 				mp -= w;
-				if (random.NextDouble() < 0.5) break; // 有一半概率就停
+				if (random.NextDouble() < 0.5) break;
 			}
 		}
 
@@ -93,6 +122,10 @@ public partial class AiPlayer : CharacterBody2D
 		sprite.Play("hit");
 		HP -= damage;
 		StatusUI.UpdateHP(HP, MaxHP);
+		
+		// 受伤后立即保存数据
+		SavePlayerData();
+		
 		if (HP <= 0) Die();
 	}
 
@@ -100,7 +133,9 @@ public partial class AiPlayer : CharacterBody2D
 	{
 		GD.Print("AI died!");
 		sprite.Play("death");
-		if (IsInstanceValid(StatusUI))
-			StatusUI.QueueFree();
+		
+		// 死亡时保存数据
+		SavePlayerData();
+		
 	}
 }

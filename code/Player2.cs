@@ -30,12 +30,34 @@ public partial class Player2 : CharacterBody2D
 		sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 		StatusUI = GetNode<StatusPanel>(StatusUIPath);
 		ActionUI = GetNode<ActionPreview>(ActionPreviewPath);
+		
+		LoadPlayerData();
+		
 		StatusUI.UpdateHP(HP, MaxHP);
 		StatusUI.UpdateMP(MP, MaxMP);
 		
 		sprite.AnimationFinished += OnAnimationFinished;
 	}
 
+	private void LoadPlayerData()
+	{
+		if (DatabaseManager.Instance != null)
+		{
+			var stats = DatabaseManager.Instance.LoadPlayerStats("Player2", HP, MP, MaxHP, MaxMP);
+			HP = stats.HP;
+			MP = stats.MP;
+			MaxHP = stats.MaxHP;
+			MaxMP = stats.MaxMP;
+			GD.Print($"已加载 Player2 数据: HP={HP}, MP={MP}");
+		}
+	}
+
+	public void SavePlayerData()
+	{
+		if (DatabaseManager.Instance != null)
+			DatabaseManager.Instance.SavePlayerStats("Player2", HP, MP, MaxHP, MaxMP);
+	}
+	
 	private void OnAnimationFinished()
 	{
 		if (sprite.Animation == "hit" || sprite.Animation == "attack")
@@ -116,6 +138,7 @@ public partial class Player2 : CharacterBody2D
 	{
 		StatusUI.UpdateHP(HP, MaxHP);
 		StatusUI.UpdateMP(MP, MaxMP);
+		SavePlayerData();
 	}
 	
 	public PlayerAction GetAction()
@@ -137,6 +160,7 @@ public partial class Player2 : CharacterBody2D
 		HP -= damage;
 		GD.Print("HP: " + HP);
 		StatusUI.UpdateHP(HP, MaxHP);
+		SavePlayerData();
 		if (HP <= 0) Die();
 	}
 

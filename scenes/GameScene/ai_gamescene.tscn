@@ -1,9 +1,9 @@
-[gd_scene load_steps=17 format=3 uid="uid://di2mcymvbfexb"]
+[gd_scene load_steps=18 format=3 uid="uid://di2mcymvbfexb"]
 
 [ext_resource type="Script" uid="uid://cylfnstavkkf3" path="res://code/AiGamescene.cs" id="1_1euqg"]
 [ext_resource type="Texture2D" uid="uid://b8ieooq5om034" path="res://assets/Free Pixel Art Forest/PNG/bl_1280_720/Layer_0011_0.png" id="1_8b8hq"]
 [ext_resource type="Texture2D" uid="uid://1vs83pf5jqfe" path="res://assets/Free Pixel Art Forest/PNG/bl_1280_720/Layer_0010_1.png" id="2_2h7jt"]
-[ext_resource type="Script" uid="uid://b7w52qrcgafvb" path="res://code/DatabaseManager.cs" id="2_v6wjv"]
+[ext_resource type="PackedScene" uid="uid://bhfygqqs4a3dj" path="res://scenes/GameScene/database_manager.tscn" id="2_v6wjv"]
 [ext_resource type="Texture2D" uid="uid://ojr044q8t2a5" path="res://assets/Free Pixel Art Forest/PNG/bl_1280_720/Layer_0009_2.png" id="3_qo6kr"]
 [ext_resource type="Texture2D" uid="uid://cmqe8qkhify26" path="res://assets/Free Pixel Art Forest/PNG/bl_1280_720/Layer_0008_3.png" id="4_1euqg"]
 [ext_resource type="Texture2D" uid="uid://34rqau8txfj6" path="res://assets/Free Pixel Art Forest/PNG/bl_1280_720/Layer_0006_4.png" id="5_v6wjv"]
@@ -12,9 +12,10 @@
 [ext_resource type="Texture2D" uid="uid://ckgykwfw2mjae" path="res://assets/Free Pixel Art Forest/PNG/bl_1280_720/Layer_0002_7.png" id="8_1tc8s"]
 [ext_resource type="Texture2D" uid="uid://bkmkt0l0kahhp" path="res://assets/Free Pixel Art Forest/PNG/bl_1280_720/Layer_0001_8.png" id="9_17dmq"]
 [ext_resource type="Texture2D" uid="uid://djxegug7r1rjr" path="res://assets/Free Pixel Art Forest/PNG/bl_1280_720/Layer_0000_9.png" id="10_b345b"]
-[ext_resource type="PackedScene" uid="uid://boyjp3v54rdfo" path="res://scenes/players/Player1.tscn" id="11_w74oc"]
+[ext_resource type="PackedScene" uid="uid://bpfvxhufl3a63" path="res://scenes/players/player_1_ai.tscn" id="12_1euqg"]
 [ext_resource type="PackedScene" uid="uid://b6a2gvw16jbf7" path="res://scenes/players/ai_player.tscn" id="12_qo6kr"]
 [ext_resource type="PackedScene" uid="uid://cdg12vdl3a8l0" path="res://scenes/GameScene/ai_battlemanager.tscn" id="14_1euqg"]
+[ext_resource type="FontFile" uid="uid://qdvsi7knnoxb" path="res://assets/fonts/ark-pixel-16px-monospaced-zh_cn.otf" id="15_gpnno"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_v6wjv"]
 distance = -205.0
@@ -22,8 +23,7 @@ distance = -205.0
 [node name="AIgamescene" type="Node2D"]
 script = ExtResource("1_1euqg")
 
-[node name="DatabaseManager" type="Node" parent="."]
-script = ExtResource("2_v6wjv")
+[node name="DatabaseManager" parent="." instance=ExtResource("2_v6wjv")]
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
 
@@ -111,12 +111,12 @@ motion_mirroring = Vector2(1280, 0)
 position = Vector2(640, 360)
 texture = ExtResource("10_b345b")
 
-[node name="Player1" parent="." instance=ExtResource("11_w74oc")]
-position = Vector2(-608, -48)
-scale = Vector2(1.65242, 1.55072)
+[node name="Player1_ai" parent="." instance=ExtResource("12_1euqg")]
+position = Vector2(-608, -80)
+scale = Vector2(1.54356, 1.64656)
 
-[node name="Camera2D" type="Camera2D" parent="Player1"]
-position = Vector2(755.258, 263.104)
+[node name="Camera2D" type="Camera2D" parent="Player1_ai"]
+position = Vector2(808.52, 267.224)
 position_smoothing_enabled = true
 
 [node name="ai_player" parent="." instance=ExtResource("12_qo6kr")]
@@ -128,5 +128,19 @@ scale = Vector2(4.50833, 3.30884)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
 position = Vector2(640, 456)
 shape = SubResource("WorldBoundaryShape2D_v6wjv")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="RestartButton" type="Button" parent="CanvasLayer"]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -37.5
+offset_right = 37.5
+offset_bottom = 31.0
+grow_horizontal = 2
+scale = Vector2(2, 2)
+theme_override_fonts/font = ExtResource("15_gpnno")
+text = "RESTART"
 
 [node name="ai_battlemanager" parent="." instance=ExtResource("14_1euqg")]

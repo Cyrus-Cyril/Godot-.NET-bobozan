@@ -2,7 +2,7 @@ using Godot;
 using System;
 using System.Collections.Generic;
 
-public partial class Player1 : CharacterBody2D
+public partial class Player1Ai : CharacterBody2D
 {
 	[Export] public int HP = 10;
 	[Export] public PackedScene SmallBulletScene;
@@ -16,22 +16,20 @@ public partial class Player1 : CharacterBody2D
 	[Export] public NodePath ActionPreviewPath;
 	private ActionPreview ActionUI;
 	private StatusPanel StatusUI;
-		
+	
 	public int MP { get; set; } = 0;
-
-
 	public AnimatedSprite2D sprite;
 	private string pendingAction = null;
 	private List<int> waveBuffer = new();
 	private bool actionChosen = false;
 
-	
 	public override void _Ready()
 	{
 		sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 		StatusUI = GetNode<StatusPanel>(StatusUIPath);
 		ActionUI = GetNode<ActionPreview>(ActionPreviewPath);
 		
+		// 从数据库加载玩家数据
 		LoadPlayerData();
 		
 		StatusUI.UpdateHP(HP, MaxHP);
@@ -39,24 +37,27 @@ public partial class Player1 : CharacterBody2D
 		
 		sprite.AnimationFinished += OnAnimationFinished;
 	}
-
+	
 	private void LoadPlayerData()
 	{
 		if (DatabaseManager.Instance != null)
 		{
-			var stats = DatabaseManager.Instance.LoadPlayerStats("Player1", HP, MP, MaxHP, MaxMP);
+			var stats = DatabaseManager.Instance.LoadPlayerStats("Player1Ai");
 			HP = stats.HP;
 			MP = stats.MP;
 			MaxHP = stats.MaxHP;
 			MaxMP = stats.MaxMP;
+			
 			GD.Print($"已加载 Player1 数据: HP={HP}, MP={MP}");
 		}
 	}
-
+	
 	public void SavePlayerData()
 	{
 		if (DatabaseManager.Instance != null)
-			DatabaseManager.Instance.SavePlayerStats("Player1", HP, MP, MaxHP, MaxMP);
+		{
+			DatabaseManager.Instance.SavePlayerStats("Player1Ai", HP, MP, MaxHP, MaxMP);
+		}
 	}
 
 	private void OnAnimationFinished()
@@ -85,7 +86,6 @@ public partial class Player1 : CharacterBody2D
 		return "";
 	}
 
-
 	public override void _Process(double delta)
 	{
 		if (actionChosen) return;
@@ -99,7 +99,6 @@ public partial class Player1 : CharacterBody2D
 		else if (Input.IsActionJustPressed("fire_medium_wave")) waveBuffer.Add(2);
 		else if (Input.IsActionJustPressed("fire_large_wave")) waveBuffer.Add(3);
 
-		// 玩家按下确认键
 		if (Input.IsActionJustPressed("confirm_action_p1"))
 		{
 			if (pendingAction == "wave" || waveBuffer.Count > 0)
@@ -139,6 +138,8 @@ public partial class Player1 : CharacterBody2D
 	{
 		StatusUI.UpdateHP(HP, MaxHP);
 		StatusUI.UpdateMP(MP, MaxMP);
+		
+		// 每次UI更新时保存数据
 		SavePlayerData();
 	}
 
@@ -161,14 +162,17 @@ public partial class Player1 : CharacterBody2D
 		HP -= damage;
 		GD.Print($"HP: {HP}");
 		StatusUI.UpdateHP(HP, MaxHP);
-		SavePlayerData();
-		if (HP <= 0) Die();
 		
+		// 受伤后立即保存数据
+		SavePlayerData();
+		
+		if (HP <= 0) Die();
 	}
 
 	private void Die()
 	{
 		GD.Print("Player1 died!");
 		sprite.Play("death");
+		SavePlayerData();
 	}
 }

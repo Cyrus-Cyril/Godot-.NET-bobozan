@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 public partial class AiBattlemanager : Node
 {
-	private Player1 player1;
+	private Player1Ai player1Ai;
 	private AiPlayer aiPlayer;
 
 	private PlayerAction actionP1;
@@ -16,19 +16,43 @@ public partial class AiBattlemanager : Node
 	private bool aiLocked = false;
 
 	private Timer cleanupTimer = null;
-
+	
+	private Button restartButton;
+	
 	public override void _Ready()
 	{
-		player1 = GetNode<Player1>("../Player1");
+		player1Ai = GetNode<Player1Ai>("../Player1_ai");
 		aiPlayer = GetNode<AiPlayer>("../ai_player");
+		restartButton = GetNode<Button>("../CanvasLayer/RestartButton");
+		restartButton.Pressed += OnRestartButtonPressed;
 		ResetRound();
 	}
 
+	private void OnRestartButtonPressed()
+	{
+		// 重置 HP/MP
+		player1Ai.HP = player1Ai.MaxHP;
+		player1Ai.MP = 0;
+		player1Ai.UpdateUI();
+		player1Ai.SavePlayerData();
+
+		aiPlayer.HP = aiPlayer.MaxHP;
+		aiPlayer.MP = 0;
+		aiPlayer.UpdateUI();
+		aiPlayer.SavePlayerData();
+		
+		player1Ai.sprite.Play("idle");
+		aiPlayer.sprite.Play("idle");
+		ResetRound();
+		
+		GD.Print("已重置双方HP/MP，并保存到数据库");
+	}
+	
 	public override void _Process(double delta)
 	{
 		if (!p1Locked)
 		{
-			actionP1 = player1.GetAction();
+			actionP1 = player1Ai.GetAction();
 			if (actionP1 != null) p1Locked = true;
 		}
 
@@ -58,7 +82,7 @@ public partial class AiBattlemanager : Node
 		actionP1 = null;
 		actionAI = null;
 
-		player1.ResetAction();
+		player1Ai.ResetAction();
 		aiPlayer.ResetAction();
 
 	}
@@ -79,7 +103,7 @@ public partial class AiBattlemanager : Node
 			PackedScene scene = GetWaveScene(player, w);
 			if (scene != null)
 			{
-				if (player is Player1 p1 && p1.MP >= w)
+				if (player is Player1Ai p1 && p1.MP >= w)
 				{
 					p1.MP -= w;
 					p1.UpdateUI();
@@ -106,18 +130,18 @@ public partial class AiBattlemanager : Node
 	{
 		GD.Print("--- 发招阶段 (AI 模式) ---");
 
-		if (a1.Type == "charge") { player1.MP = Math.Min(player1.MaxMP, player1.MP + 1); player1.UpdateUI(); }
+		if (a1.Type == "charge") { player1Ai.MP = Math.Min(player1Ai.MaxMP, player1Ai.MP + 1); player1Ai.UpdateUI(); }
 		if (a2.Type == "charge") { aiPlayer.MP = Math.Min(aiPlayer.MaxMP, aiPlayer.MP + 1); aiPlayer.UpdateUI(); }
 
 		if (a1.Type == "rebound")
 		{
-			var inst = player1.ReboundScene.Instantiate<Rebound>();
+			var inst = player1Ai.ReboundScene.Instantiate<Rebound>();
 			inst.Direction = 1;
 			inst.UpdateFacing();
 			inst.GlobalPosition = new Vector2(370, 500);
 			AddChild(inst);
-			player1.MP -= 1;
-			player1.UpdateUI();
+			player1Ai.MP -= 1;
+			player1Ai.UpdateUI();
 		}
 
 		if (a2.Type == "rebound")
@@ -133,7 +157,7 @@ public partial class AiBattlemanager : Node
 
 		if (a1.Type == "defend")
 		{
-			var inst = player1.DefendScene.Instantiate<Defend>();
+			var inst = player1Ai.DefendScene.Instantiate<Defend>();
 			inst.Direction = 1;
 			inst.UpdateFacing();
 			inst.GlobalPosition = new Vector2(370, 500);
@@ -151,13 +175,13 @@ public partial class AiBattlemanager : Node
 
 		if (a1.Type == "wave")
 		{
-			FireWaveSequence(player1, a1.Waves, 1, "ai_player", new Vector2(380, 500));
-			player1.sprite.Play("attack");
+			FireWaveSequence(player1Ai, a1.Waves, 1, "ai_player", new Vector2(380, 500));
+			player1Ai.sprite.Play("attack");
 		}
 
 		if (a2.Type == "wave")
 		{
-			FireWaveSequence(aiPlayer, a2.Waves, -1, "Player1", new Vector2(880, 500));
+			FireWaveSequence(aiPlayer, a2.Waves, -1, "player1Ai", new Vector2(880, 500));
 			aiPlayer.sprite.Play("attack");
 		}
 
@@ -173,12 +197,20 @@ public partial class AiBattlemanager : Node
 		cleanupTimer.Timeout += OnDelayedCleanup;
 		cleanupTimer.Start();
 		
+		if (DatabaseManager.Instance != null)
+		{
+			DatabaseManager.Instance.SaveBattleState(
+				"Player1Ai", player1Ai.HP, player1Ai.MP, player1Ai.MaxHP, player1Ai.MaxMP,
+				"AiPlayer", aiPlayer.HP, aiPlayer.MP, aiPlayer.MaxHP, aiPlayer.MaxMP
+			);
+		}
+	
 		_ = ResetAfterDelay();
 	}
 
 	private PackedScene GetWaveScene(Node player, int level)
 	{
-		if (player is Player1 p1)
+		if (player is Player1Ai p1)
 		{
 			return level switch
 			{
