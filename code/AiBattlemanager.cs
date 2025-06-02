@@ -29,6 +29,9 @@ public partial class AiBattlemanager : Node
 	{
 		player1Ai = GetNode<Player1Ai>("../Player1_ai");
 		aiPlayer = GetNode<AiPlayer>("../ai_player");
+		
+		AiPlayer.EnemyPlayer = player1Ai;
+		
 		restartButton = GetNode<Button>("../CanvasLayer/RestartButton");
 		restartButton.Pressed += OnRestartButtonPressed;
 		
@@ -165,7 +168,12 @@ public partial class AiBattlemanager : Node
 		actionAI = null;
 
 		player1Ai.ResetAction();
+<<<<<<< HEAD
 		aiPlayer.ResetAction();
+=======
+		aiPlayer.ResetState();
+
+>>>>>>> da16f61fde75183fa2b15a50c1122050ba9a62bf
 	}
 
 	private void OnDelayedCleanup()
