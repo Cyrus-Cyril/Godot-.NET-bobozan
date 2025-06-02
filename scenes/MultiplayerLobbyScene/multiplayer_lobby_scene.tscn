@@ -1,12 +1,16 @@
-[gd_scene load_steps=44 format=3 uid="uid://c8nfobnpuwaep"]
+[gd_scene load_steps=52 format=3 uid="uid://c8nfobnpuwaep"]
 
 [ext_resource type="Texture2D" uid="uid://bb0nrjsttsdii" path="res://assets/Free Pixel Art Forest/Preview/Background.png" id="1_plnq6"]
+[ext_resource type="Script" uid="uid://4ras15ebpm20" path="res://scenes/MultiplayerLobbyScene/MultiplayerLobbyScene.cs" id="1_tvsh7"]
 [ext_resource type="Texture2D" uid="uid://dhee8sgsxfsvu" path="res://assets/Complete_UI_Book_Styles_Pack_Free_v1.0/01_TravelBookLite/Sprites/UI_TravelBook_BookCover01a.png" id="2_tvsh7"]
 [ext_resource type="Texture2D" uid="uid://cv5ne2pg8p8a1" path="res://assets/Complete_UI_Book_Styles_Pack_Free_v1.0/01_TravelBookLite/Sprites/UI_TravelBook_BookPageRight01a.png" id="3_vcvlq"]
 [ext_resource type="Texture2D" uid="uid://cx1htn6wf5hqd" path="res://assets/Complete_UI_Book_Styles_Pack_Free_v1.0/01_TravelBookLite/Sprites/UI_TravelBook_BookPageLeft01a.png" id="4_6m0v7"]
 [ext_resource type="Texture2D" uid="uid://brj6onwcp2yad" path="res://assets/campfire-sheet.png" id="8_bv6o8"]
+[ext_resource type="Texture2D" uid="uid://btocjfqsqojpu" path="res://assets/Complete_UI_Book_Styles_Pack_Free_v1.0/01_TravelBookLite/Sprites Animated/UI_TravelBook_Button01a_5.png" id="8_vcvlq"]
 [ext_resource type="Texture2D" uid="uid://ddipje5dqwfqb" path="res://assets/EVil Wizard 2/Sprites/Idle.png" id="9_4uu8o"]
+[ext_resource type="Texture2D" uid="uid://bqhtcrh8efc2u" path="res://assets/Complete_UI_Book_Styles_Pack_Free_v1.0/01_TravelBookLite/Sprites Animated/UI_TravelBook_Button01a_3.png" id="9_6m0v7"]
 [ext_resource type="Texture2D" uid="uid://ddw5u1ytnhooi" path="res://assets/Medieval King Pack 2/Sprites/Idle.png" id="10_8wlp8"]
+[ext_resource type="Texture2D" uid="uid://dosr34srgamao" path="res://assets/Complete_UI_Book_Styles_Pack_Free_v1.0/01_TravelBookLite/Sprites Animated/UI_TravelBook_Button01a_4.png" id="10_cdcm7"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_grlop"]
 atlas = ExtResource("8_bv6o8")
@@ -200,6 +204,17 @@ animations = [{
 "speed": 8.0
 }]
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ud5rn"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_tbpqt"]
+texture = ExtResource("8_vcvlq")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_bv6o8"]
+texture = ExtResource("9_6m0v7")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_4uu8o"]
+texture = ExtResource("10_cdcm7")
+
 [sub_resource type="Animation" id="Animation_rn3p1"]
 resource_name = "Float"
 length = 2.5
@@ -367,6 +382,7 @@ layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
+script = ExtResource("1_tvsh7")
 metadata/_edit_lock_ = true
 
 [node name="BackGround" type="TextureRect" parent="."]
@@ -405,12 +421,11 @@ flip_h = true
 
 [node name="MenuFrame" type="TextureRect" parent="."]
 layout_mode = 0
-offset_left = -348.0
-offset_top = 33.0
-offset_right = 482.0
-offset_bottom = 563.0
+offset_left = -350.0
+offset_top = 81.5
+offset_right = 480.0
+offset_bottom = 611.5
 texture = ExtResource("2_tvsh7")
-metadata/_edit_group_ = true
 
 [node name="PageRight" type="TextureRect" parent="MenuFrame"]
 layout_mode = 0
@@ -422,58 +437,18 @@ pivot_offset = Vector2(198.012, 298.054)
 mouse_filter = 0
 texture = ExtResource("3_vcvlq")
 
-[node name="CreateRoomButton" type="Button" parent="MenuFrame/PageRight"]
-layout_mode = 0
-offset_left = -67.0
-offset_top = -92.5
-offset_right = -59.0
-offset_bottom = -84.5
-
-[node name="JoinRoomButton" type="Button" parent="MenuFrame/PageRight"]
-layout_mode = 0
-offset_left = -67.0
-offset_top = -92.5
-offset_right = -59.0
-offset_bottom = -84.5
-
-[node name="CreateRoomPopup" type="Panel" parent="MenuFrame/PageRight"]
-layout_mode = 0
-offset_left = -67.0
-offset_top = -92.5
-offset_right = -27.0
-offset_bottom = -52.5
-
-[node name="StatusLabel" type="Label" parent="MenuFrame/PageRight/CreateRoomPopup"]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 23.0
-
-[node name="RoomCodeLabel" type="Label" parent="MenuFrame/PageRight/CreateRoomPopup"]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 23.0
-
-[node name="CancelButton" type="Button" parent="MenuFrame/PageRight/CreateRoomPopup"]
-layout_mode = 0
-offset_right = 8.0
-offset_bottom = 8.0
-
-[node name="JoinRoomPopup" type="Panel" parent="MenuFrame/PageRight"]
-layout_mode = 0
-offset_left = -67.0
-offset_top = -92.5
-offset_right = -27.0
-offset_bottom = -52.5
-
-[node name="RoomCodeInput" type="LineEdit" parent="MenuFrame/PageRight/JoinRoomPopup"]
-layout_mode = 0
-offset_right = 68.5625
-offset_bottom = 31.0
-
-[node name="CancelButton" type="Button" parent="MenuFrame/PageRight/JoinRoomPopup"]
-layout_mode = 0
-offset_right = 8.0
-offset_bottom = 8.0
+[node name="ButtonLocal" type="Button" parent="MenuFrame/PageRight"]
+offset_left = 31.0
+offset_top = 48.5
+offset_right = 351.0
+offset_bottom = 133.5
+theme_override_font_sizes/font_size = 36
+theme_override_styles/focus = SubResource("StyleBoxEmpty_ud5rn")
+theme_override_styles/hover = SubResource("StyleBoxTexture_tbpqt")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_bv6o8")
+theme_override_styles/normal = SubResource("StyleBoxTexture_4uu8o")
+text = "本地双人
+"
 
 [node name="PageLeft" type="TextureRect" parent="MenuFrame"]
 layout_mode = 0
@@ -500,3 +475,5 @@ libraries = {
 libraries = {
 &"": SubResource("AnimationLibrary_ao6ly")
 }
+
+[connection signal="pressed" from="MenuFrame/PageRight/ButtonLocal" to="." method="_on_button_local_pressed"]
