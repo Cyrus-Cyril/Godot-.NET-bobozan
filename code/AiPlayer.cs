@@ -4,6 +4,10 @@ using System.Collections.Generic;
 
 public partial class AiPlayer : CharacterBody2D
 {
+	// 状态机枚举
+	public enum AiState { Idle, ChoosingAction, ExecutingAction, Dead }
+	private AiState currentState = AiState.Idle;
+
 	[Export] public int HP = 10;
 	[Export] public int MaxHP = 10;
 	[Export] public int MaxMP = 15;
@@ -20,22 +24,160 @@ public partial class AiPlayer : CharacterBody2D
 
 	private string pendingAction = null;
 	private List<int> waveBuffer = new();
-	private bool actionChosen = false;
 	private Random random = new();
+
+	// 静态引用对手（由 ai_battlemanager 注入）
+	public static Player1Ai EnemyPlayer { get; set; }
 
 	public override void _Ready()
 	{
 		sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 		StatusUI = GetNode<StatusPanel>(StatusUIPath);
-		
-		// 从数据库加载AI数据
+
 		LoadPlayerData();
-		
+
 		StatusUI.UpdateHP(HP, MaxHP);
 		StatusUI.UpdateMP(MP, MaxMP);
+
 		sprite.AnimationFinished += OnAnimationFinished;
 	}
-	
+
+	public override void _Process(double delta)
+	{
+		// 防御性检查
+		if (EnemyPlayer == null)
+		{
+			GD.PrintErr("AI无法获取敌人引用！");
+			return;
+		}
+
+		switch (currentState)
+		{
+			case AiState.Idle:
+				currentState = AiState.ChoosingAction;
+				break;
+
+			case AiState.ChoosingAction:
+				ChooseAction();
+				currentState = AiState.ExecutingAction;
+				break;
+
+			case AiState.ExecutingAction:
+				// 等外部系统执行完 action 后调用 ResetState()
+				break;
+
+			case AiState.Dead:
+				// 死亡后不做任何事
+				break;
+		}
+	}
+
+	private void ChooseAction()
+	{
+		int enemyMP = EnemyPlayer?.MP ?? 0;
+		bool enemyDangerous = enemyMP > 0;
+
+		var weights = new Dictionary<string, float>();
+
+		if (MP >= 1)
+		{
+			weights["wave"] = 2.0f;
+			if (enemyDangerous) weights["rebound"] = 1.0f;
+		}
+		if (MP < MaxMP)
+		{
+			weights["charge"] = 1.5f;
+		}
+		if (enemyDangerous)
+		{
+			weights["defend"] = 0.8f;
+		}
+
+		if (weights.Count == 0)
+		{
+			weights["charge"] = 1.0f;
+		}
+
+		pendingAction = ChooseWeightedAction(weights);
+
+		if (pendingAction == "wave")
+		{
+			GenerateWavePattern();
+		}
+	}
+
+	private string ChooseWeightedAction(Dictionary<string, float> options)
+	{
+		float total = 0;
+		foreach (var w in options.Values) total += w;
+		float roll = (float)random.NextDouble() * total;
+
+		foreach (var kv in options)
+		{
+			if (roll < kv.Value)
+				return kv.Key;
+			roll -= kv.Value;
+		}
+		return "defend";
+	}
+
+	private void GenerateWavePattern()
+	{
+		waveBuffer.Clear();
+		int mp = MP;
+		while (mp >= 1)
+		{
+			int w = random.Next(1, Math.Min(mp, 3) + 1);
+			waveBuffer.Add(w);
+			mp -= w;
+			if (random.NextDouble() < 0.5) break;
+		}
+	}
+
+	public PlayerAction GetAction()
+	{
+		if (currentState != AiState.ExecutingAction) return null;
+
+		if (pendingAction == "wave")
+			return new PlayerAction("wave", new List<int>(waveBuffer));
+		else
+			return new PlayerAction(pendingAction);
+	}
+
+	public void ResetState()
+	{
+		pendingAction = null;
+		waveBuffer.Clear();
+		currentState = HP > 0 ? AiState.Idle : AiState.Dead;
+	}
+
+	private void OnAnimationFinished()
+	{
+		if (sprite.Animation == "hit" || sprite.Animation == "attack")
+			sprite.Play("idle");
+	}
+
+	public void TakeDamage(int damage)
+	{
+		if (currentState == AiState.Dead) return;
+
+		sprite.Play("hit");
+		HP -= damage;
+		StatusUI.UpdateHP(HP, MaxHP);
+		SavePlayerData();
+
+		if (HP <= 0)
+			Die();
+	}
+
+	private void Die()
+	{
+		GD.Print("AI died!");
+		sprite.Play("death");
+		SavePlayerData();
+		currentState = AiState.Dead;
+	}
+
 	private void LoadPlayerData()
 	{
 		if (DatabaseManager.Instance != null)
@@ -45,97 +187,20 @@ public partial class AiPlayer : CharacterBody2D
 			MP = stats.MP;
 			MaxHP = stats.MaxHP;
 			MaxMP = stats.MaxMP;
-			
 			GD.Print($"已加载 AiPlayer 数据: HP={HP}, MP={MP}");
 		}
 	}
-	
+
 	public void SavePlayerData()
 	{
 		if (DatabaseManager.Instance != null)
-		{
 			DatabaseManager.Instance.SavePlayerStats("AiPlayer", HP, MP, MaxHP, MaxMP);
-		}
 	}
 
 	public void UpdateUI()
 	{
 		StatusUI.UpdateHP(HP, MaxHP);
 		StatusUI.UpdateMP(MP, MaxMP);
-		
-		// 每次UI更新时保存数据
 		SavePlayerData();
-	}
-
-	private void OnAnimationFinished()
-	{
-		if (sprite.Animation == "hit" || sprite.Animation == "attack")
-			sprite.Play("idle");
-	}
-
-	public override void _Process(double delta)
-	{
-		if (actionChosen) return;
-
-		List<string> options = new();
-
-		if (MP >= 1) options.Add("rebound");
-		if (MP >= 1) options.Add("wave");
-		if (MP < MaxMP) options.Add("charge");
-		options.Add("defend");
-
-		pendingAction = options[random.Next(options.Count)];
-
-		if (pendingAction == "wave")
-		{
-			waveBuffer.Clear();
-			int mp = MP;
-			while (mp >= 1)
-			{
-				int w = random.Next(1, Math.Min(mp, 3) + 1);
-				waveBuffer.Add(w);
-				mp -= w;
-				if (random.NextDouble() < 0.5) break;
-			}
-		}
-
-		actionChosen = true;
-	}
-
-	public PlayerAction GetAction()
-	{
-		if (!actionChosen) return null;
-		return pendingAction == "wave"
-			? new PlayerAction("wave", new List<int>(waveBuffer))
-			: new PlayerAction(pendingAction);
-	}
-
-	public void ResetAction()
-	{
-		pendingAction = null;
-		actionChosen = false;
-		waveBuffer.Clear();
-	}
-
-	public void TakeDamage(int damage)
-	{
-		sprite.Play("hit");
-		HP -= damage;
-		StatusUI.UpdateHP(HP, MaxHP);
-		
-		// 受伤后立即保存数据
-		SavePlayerData();
-		
-		if (HP <= 0) Die();
-	}
-
-	private void Die()
-	{
-		GD.Print("AI died!");
-		sprite.Play("death");
-		
-		// 死亡时保存数据
-		SavePlayerData();
-		
 	}
 }

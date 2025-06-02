@@ -43,6 +43,7 @@ public partial class BattleManager : Node
 		ResetRound();
 		
 		GD.Print("已重置双方HP/MP，并保存到数据库");
+		//restartButton.ReleaseFocus();
 	}
 
 	public override void _Process(double delta)
