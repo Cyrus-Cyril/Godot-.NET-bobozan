@@ -168,8 +168,5 @@ public partial class Player2 : CharacterBody2D
 	{
 		GD.Print("Player2 died!");
 		sprite.Play("death");
-		
-		if (IsInstanceValid(StatusUI))
-			StatusUI.QueueFree();
 	}
 }

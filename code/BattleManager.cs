@@ -13,10 +13,17 @@ public partial class BattleManager : Node
 
 	private bool p1Locked = false;
 	private bool p2Locked = false;
+	private bool gameEnded = false;
 
 	private Timer cleanupTimer = null;
 	
 	private Button restartButton;
+	
+	private Control gameEndPanel;
+	private Label gameEndLabel;
+	private Button backToMainButton;
+	
+	private string mainMenuScenePath = "res://scenes/MainScene/main_scene.tscn"; 
 
 	public override void _Ready()
 	{
@@ -24,12 +31,29 @@ public partial class BattleManager : Node
 		player2 = GetNode<Player2>("../Player2");
 		restartButton = GetNode<Button>("../CanvasLayer/RestartButton");
 		restartButton.Pressed += OnRestartButtonPressed;
+
+		GetGameEndUIElements();
+		
 		ResetRound();
+	}
+
+	private void GetGameEndUIElements()
+	{
+
+		gameEndPanel = GetNode<Control>("../CanvasLayer/GameEndPanel");
+		gameEndLabel = GetNode<Label>("../CanvasLayer/GameEndPanel/GameEndLabel");
+		backToMainButton = GetNode<Button>("../CanvasLayer/GameEndPanel/BackToMainButton");
+		
+		backToMainButton.Pressed += OnBackToMainButtonPressed;
+		
+		gameEndPanel.Visible = false;
 	}
 	
 	private void OnRestartButtonPressed()
 	{
-		// 重置 HP/MP
+		gameEnded = false;
+		gameEndPanel.Visible = false;
+		
 		player1.HP = player1.MaxHP;
 		player1.MP = 0;
 		player1.UpdateUI();
@@ -45,8 +69,43 @@ public partial class BattleManager : Node
 		GD.Print("已重置双方HP/MP，并保存到数据库");
 	}
 
+	private void OnBackToMainButtonPressed()
+	{
+		ResetCharacterStates();
+		
+		GD.Print("返回主界面前已重置双方HP/MP，并保存到数据库");
+		
+		GetTree().ChangeSceneToFile(mainMenuScenePath);
+	}
+
+	private void ResetCharacterStates()
+	{
+		player1.HP = player1.MaxHP;
+		player1.MP = 0;
+		player1.UpdateUI();
+
+		player2.HP = player2.MaxHP;
+		player2.MP = 0;
+		player2.UpdateUI();
+		
+		player1.sprite.Play("idle");
+		player2.sprite.Play("idle");
+		
+		if (DatabaseManager.Instance != null)
+		{
+			DatabaseManager.Instance.SaveBattleState(
+				"Player1", player1.HP, player1.MP, player1.MaxHP, player1.MaxMP,
+				"Player2", player2.HP, player2.MP, player2.MaxHP, player2.MaxMP
+			);
+		}
+	}
+
 	public override void _Process(double delta)
 	{
+		if (gameEnded) return;
+		
+		CheckGameEnd();
+		
 		if (!p1Locked)
 		{
 			actionP1 = player1.GetAction();
@@ -66,8 +125,34 @@ public partial class BattleManager : Node
 		}
 	}
 
+	private void CheckGameEnd()
+	{
+		if (gameEnded) return;
+		
+		if (player1.HP <= 0)
+		{
+			ShowGameEnd("PLAYER 2 WINS!", Colors.Gold);
+		}
+		else if (player2.HP <= 0)
+		{
+			ShowGameEnd("PLAYER 1 WINS!", Colors.Gold);
+		}
+	}
+	
+	private void ShowGameEnd(string message, Color textColor)
+	{
+		gameEnded = true;
+		gameEndLabel.Text = message;
+		gameEndLabel.Modulate = textColor;
+		gameEndPanel.Visible = true;
+		
+		GD.Print($"游戏结束: {message}");
+	}
+
 	private void ResetRound()
 	{
+		if (gameEnded) return;
+		
 		p1Locked = false;
 		p2Locked = false;
 		actionP1 = null;
@@ -115,6 +200,7 @@ public partial class BattleManager : Node
 			}
 		}
 	}
+
 	private void ResolveTurn(PlayerAction a1, PlayerAction a2)
 	{
 		GD.Print("--- 发招阶段 ---");

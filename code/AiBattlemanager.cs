@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-
 public partial class AiBattlemanager : Node
 {
 	private Player1Ai player1Ai;
@@ -14,10 +13,17 @@ public partial class AiBattlemanager : Node
 
 	private bool p1Locked = false;
 	private bool aiLocked = false;
+	private bool gameEnded = false; 
 
 	private Timer cleanupTimer = null;
 	
 	private Button restartButton;
+	
+	private Control gameEndPanel;
+	private Label gameEndLabel;
+	private Button backToMainButton;
+
+	private string mainMenuScenePath = "res://scenes/MainScene/main_scene.tscn"; 
 	
 	public override void _Ready()
 	{
@@ -25,12 +31,29 @@ public partial class AiBattlemanager : Node
 		aiPlayer = GetNode<AiPlayer>("../ai_player");
 		restartButton = GetNode<Button>("../CanvasLayer/RestartButton");
 		restartButton.Pressed += OnRestartButtonPressed;
+		
+		GetGameEndUIElements();
+		
 		ResetRound();
+	}
+
+	private void GetGameEndUIElements()
+	{
+
+		gameEndPanel = GetNode<Control>("../CanvasLayer/GameEndPanel");
+		gameEndLabel = GetNode<Label>("../CanvasLayer/GameEndPanel/GameEndLabel");
+		backToMainButton = GetNode<Button>("../CanvasLayer/GameEndPanel/BackToMainButton");
+		
+		backToMainButton.Pressed += OnBackToMainButtonPressed;
+		
+		gameEndPanel.Visible = false;
 	}
 
 	private void OnRestartButtonPressed()
 	{
-		// 重置 HP/MP
+		gameEnded = false;
+		gameEndPanel.Visible = false;
+		
 		player1Ai.HP = player1Ai.MaxHP;
 		player1Ai.MP = 0;
 		player1Ai.UpdateUI();
@@ -48,8 +71,45 @@ public partial class AiBattlemanager : Node
 		GD.Print("已重置双方HP/MP，并保存到数据库");
 	}
 	
+	private void OnBackToMainButtonPressed()
+	{
+		ResetCharacterStates();
+		
+		GD.Print("返回主界面前已重置双方HP/MP，并保存到数据库");
+		
+		GetTree().ChangeSceneToFile(mainMenuScenePath);
+	}
+
+	private void ResetCharacterStates()
+	{
+		player1Ai.HP = player1Ai.MaxHP;
+		player1Ai.MP = 0;
+		player1Ai.UpdateUI();
+		player1Ai.SavePlayerData();
+
+		aiPlayer.HP = aiPlayer.MaxHP;
+		aiPlayer.MP = 0;
+		aiPlayer.UpdateUI();
+		aiPlayer.SavePlayerData();
+
+		player1Ai.sprite.Play("idle");
+		aiPlayer.sprite.Play("idle");
+		
+		if (DatabaseManager.Instance != null)
+		{
+			DatabaseManager.Instance.SaveBattleState(
+				"Player1Ai", player1Ai.HP, player1Ai.MP, player1Ai.MaxHP, player1Ai.MaxMP,
+				"AiPlayer", aiPlayer.HP, aiPlayer.MP, aiPlayer.MaxHP, aiPlayer.MaxMP
+			);
+		}
+	}
+	
 	public override void _Process(double delta)
 	{
+		if (gameEnded) return;
+		
+		CheckGameEnd();
+		
 		if (!p1Locked)
 		{
 			actionP1 = player1Ai.GetAction();
@@ -65,18 +125,40 @@ public partial class AiBattlemanager : Node
 		if (p1Locked && aiLocked)
 		{
 			ResolveTurn(actionP1, actionAI);
+			// 移除了这里的 ResetRound()，让 ResetAfterDelay() 处理
 			ResetRound();
 		}
 	}
 
-	private async Task ResetAfterDelay()
+	private void CheckGameEnd()
 	{
-		await ToSignal(GetTree().CreateTimer(0.1f), "timeout");
-		ResetRound();
+		if (gameEnded) return;
+		
+		if (player1Ai.HP <= 0)
+		{
+			ShowGameEnd("DEFEAT", Colors.Red);
+		}
+		else if (aiPlayer.HP <= 0)
+		{
+			ShowGameEnd("VICTORY", Colors.Gold);
+		}
+	}
+	
+	private void ShowGameEnd(string message, Color textColor)
+	{
+		gameEnded = true;
+		gameEndLabel.Text = message;
+		gameEndLabel.Modulate = textColor;
+		gameEndPanel.Visible = true;
+		
+		GD.Print($"游戏结束: {message}");
 	}
 
 	private void ResetRound()
 	{
+		// 新增：游戏结束时不重置
+		if (gameEnded) return;
+		
 		p1Locked = false;
 		aiLocked = false;
 		actionP1 = null;
@@ -84,7 +166,6 @@ public partial class AiBattlemanager : Node
 
 		player1Ai.ResetAction();
 		aiPlayer.ResetAction();
-
 	}
 
 	private void OnDelayedCleanup()
@@ -205,7 +286,7 @@ public partial class AiBattlemanager : Node
 			);
 		}
 	
-		_ = ResetAfterDelay();
+		//_ = ResetAfterDelay();
 	}
 
 	private PackedScene GetWaveScene(Node player, int level)
