@@ -140,6 +140,7 @@ offset_right = 37.5
 offset_bottom = 31.0
 grow_horizontal = 2
 scale = Vector2(2, 2)
+focus_mode = 0
 theme_override_fonts/font = ExtResource("14_3jbqm")
 text = "RESTART"
 
