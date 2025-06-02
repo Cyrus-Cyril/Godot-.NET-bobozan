@@ -168,12 +168,8 @@ public partial class AiBattlemanager : Node
 		actionAI = null;
 
 		player1Ai.ResetAction();
-<<<<<<< HEAD
-		aiPlayer.ResetAction();
-=======
 		aiPlayer.ResetState();
 
->>>>>>> da16f61fde75183fa2b15a50c1122050ba9a62bf
 	}
 
 	private void OnDelayedCleanup()

@@ -6,7 +6,7 @@ public partial class CharacterSelectScene : Control
 	private void _on_confirm_button_pressed()
 	{
 		// 跳转到游戏场景
-		GetTree().ChangeSceneToFile("res://Scenes/GameScene/gamescene.tscn");
+		GetTree().ChangeSceneToFile("res://Scenes/GameScene/ai_gamescene.tscn");
 	}
 	private void _on_back_button_pressed()
 	{
