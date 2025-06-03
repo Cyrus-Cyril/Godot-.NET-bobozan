@@ -27,8 +27,8 @@ public partial class BattleManager : Node
 
 	public override void _Ready()
 	{
-		player1 = GetNode<Player1>("../Player1");
-		player2 = GetNode<Player2>("../Player2");
+		player1 = GetNode<Player1>("../Players/Player1");
+		player2 = GetNode<Player2>("../Players/Player2");
 		restartButton = GetNode<Button>("../CanvasLayer/RestartButton");
 		restartButton.Pressed += OnRestartButtonPressed;
 

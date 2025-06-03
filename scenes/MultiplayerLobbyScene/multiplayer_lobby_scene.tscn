@@ -1,4 +1,4 @@
-[gd_scene load_steps=52 format=3 uid="uid://c8nfobnpuwaep"]
+[gd_scene load_steps=56 format=3 uid="uid://c8nfobnpuwaep"]
 
 [ext_resource type="Texture2D" uid="uid://bb0nrjsttsdii" path="res://assets/Free Pixel Art Forest/Preview/Background.png" id="1_plnq6"]
 [ext_resource type="Script" uid="uid://4ras15ebpm20" path="res://scenes/MultiplayerLobbyScene/MultiplayerLobbyScene.cs" id="1_tvsh7"]
@@ -215,6 +215,17 @@ texture = ExtResource("9_6m0v7")
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_4uu8o"]
 texture = ExtResource("10_cdcm7")
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_tvsh7"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_vcvlq"]
+texture = ExtResource("8_vcvlq")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_6m0v7"]
+texture = ExtResource("9_6m0v7")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_cdcm7"]
+texture = ExtResource("10_cdcm7")
+
 [sub_resource type="Animation" id="Animation_rn3p1"]
 resource_name = "Float"
 length = 2.5
@@ -421,10 +432,10 @@ flip_h = true
 
 [node name="MenuFrame" type="TextureRect" parent="."]
 layout_mode = 0
-offset_left = -350.0
-offset_top = 81.5
-offset_right = 480.0
-offset_bottom = 611.5
+offset_left = -348.0
+offset_top = 33.0
+offset_right = 482.0
+offset_bottom = 563.0
 texture = ExtResource("2_tvsh7")
 
 [node name="PageRight" type="TextureRect" parent="MenuFrame"]
@@ -438,16 +449,45 @@ mouse_filter = 0
 texture = ExtResource("3_vcvlq")
 
 [node name="ButtonLocal" type="Button" parent="MenuFrame/PageRight"]
+layout_mode = 0
 offset_left = 31.0
-offset_top = 48.5
+offset_top = 49.0
 offset_right = 351.0
-offset_bottom = 133.5
+offset_bottom = 167.0
 theme_override_font_sizes/font_size = 36
 theme_override_styles/focus = SubResource("StyleBoxEmpty_ud5rn")
 theme_override_styles/hover = SubResource("StyleBoxTexture_tbpqt")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_bv6o8")
 theme_override_styles/normal = SubResource("StyleBoxTexture_4uu8o")
 text = "本地双人
+"
+
+[node name="ButtonNet" type="Button" parent="MenuFrame/PageRight"]
+layout_mode = 0
+offset_left = 32.0
+offset_top = 188.0
+offset_right = 352.0
+offset_bottom = 304.0
+theme_override_font_sizes/font_size = 36
+theme_override_styles/focus = SubResource("StyleBoxEmpty_ud5rn")
+theme_override_styles/hover = SubResource("StyleBoxTexture_tbpqt")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_bv6o8")
+theme_override_styles/normal = SubResource("StyleBoxTexture_4uu8o")
+text = "局域网联机
+"
+
+[node name="BackButton" type="Button" parent="MenuFrame/PageRight"]
+layout_mode = 0
+offset_left = 31.0
+offset_top = 369.0
+offset_right = 350.0
+offset_bottom = 451.0
+theme_override_font_sizes/font_size = 36
+theme_override_styles/focus = SubResource("StyleBoxEmpty_tvsh7")
+theme_override_styles/hover = SubResource("StyleBoxTexture_vcvlq")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_6m0v7")
+theme_override_styles/normal = SubResource("StyleBoxTexture_cdcm7")
+text = "返回
 "
 
 [node name="PageLeft" type="TextureRect" parent="MenuFrame"]
@@ -477,3 +517,5 @@ libraries = {
 }
 
 [connection signal="pressed" from="MenuFrame/PageRight/ButtonLocal" to="." method="_on_button_local_pressed"]
+[connection signal="pressed" from="MenuFrame/PageRight/ButtonNet" to="." method="_on_button_net_pressed"]
+[connection signal="pressed" from="MenuFrame/PageRight/BackButton" to="." method="_on_back_button_pressed"]
