@@ -4,6 +4,8 @@ using System;
 public partial class Netgamescene : Node2D
 {
 	public ENetMultiplayerPeer peer = new ENetMultiplayerPeer();
+	private PackedScene player1Scene = GD.Load<PackedScene>("res://scenes/players/Player1.tscn");
+	private PackedScene player2Scene = GD.Load<PackedScene>("res://scenes/players/Player2.tscn");
 
 	private Node players;
 	private Node player1Node;
@@ -71,18 +73,53 @@ public partial class Netgamescene : Node2D
 		Multiplayer.PeerConnected += new MultiplayerApi.PeerConnectedEventHandler(OnPeerConnected);
 	}
 
-	 // 添加玩家到场景
+	// 添加玩家到场景
 	private void AddHostPlayer(long id)
 	{
-		(player1Node as Node2D).Visible = true;
-		player1Node.Name = id.ToString();
+		var p1 = player1Scene.Instantiate<Player1>();
+		p1.Name = id.ToString();
+		players.AddChild(p1);
+		TryRegisterToBattleManager();
 	}
 
 	private void AddCustomPlayer(long id)
 	{
-		(player2Node as Node2D).Visible = true;
-		player2Node.Name = id.ToString();
+		var p2 = player2Scene.Instantiate<Player2>();
+		p2.Name = id.ToString();
+		players.AddChild(p2);
+		TryRegisterToBattleManager();
 	}
+
+	private void TryRegisterToBattleManager()
+	{
+		var battleManager = GetNode<BattleManager>("BattleManager");
+
+		Player1 p1 = null;
+		foreach (var child in players.GetChildren())
+		{
+			if (child is Player1 player1)
+			{
+				p1 = player1;
+				break;
+			}
+		}
+		Player2 p2 = null;
+		foreach (var child in players.GetChildren())
+		{
+			if (child is Player2 player2)
+			{
+				p2 = player2;
+				break;
+			}
+		}
+
+		if (p1 != null && p2 != null)
+		{
+			battleManager.RegisterPlayers(p1, p2);
+		}
+	}
+
+
 	private void OnPeerConnected(long id)
 	{
 		GD.Print("Peer connected with ID: ", id);

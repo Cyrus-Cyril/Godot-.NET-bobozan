@@ -10,15 +10,16 @@ public partial class Player2 : CharacterBody2D
 	[Export] public PackedScene LargeBulletScene;
 	[Export] public PackedScene DefendScene;
 	[Export] public PackedScene ReboundScene;
-	[Export] public int MaxMP { get; set; } = 15;
-	[Export] public int MaxHP { get; set; } = 10;
+	[Export] public int MaxMP = 15;
+	[Export] public int MaxHP = 10;
+	[Export] public int MP = 0;
 	[Export] public NodePath StatusUIPath;
 	[Export] public NodePath ActionPreviewPath;
 	private ActionPreview ActionUI;
 	private StatusPanel StatusUI;
 
 
-	public int MP { get; set; } = 0;
+
 
 	public AnimatedSprite2D sprite;
 	private string pendingAction = null;
@@ -27,6 +28,9 @@ public partial class Player2 : CharacterBody2D
 
 	public override void _Ready()
 	{
+		Position = new Vector2(664, 256); 
+		Scale = new Vector2(5.07f, 3.801f);
+
 		sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 		StatusUI = GetNode<StatusPanel>(StatusUIPath);
 		ActionUI = GetNode<ActionPreview>(ActionPreviewPath);

@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://brk7tvao5swar"]
+[gd_scene load_steps=19 format=3 uid="uid://brk7tvao5swar"]
 
 [ext_resource type="Script" uid="uid://crvsyk21uvc66" path="res://code/Gamescene.cs" id="1_og0yp"]
 [ext_resource type="PackedScene" uid="uid://bhfygqqs4a3dj" path="res://scenes/GameScene/database_manager.tscn" id="2_4argo"]
@@ -16,6 +16,7 @@
 [ext_resource type="Texture2D" uid="uid://djxegug7r1rjr" path="res://assets/Free Pixel Art Forest/PNG/bl_1280_720/Layer_0000_9.png" id="11_cdrhj"]
 [ext_resource type="FontFile" uid="uid://qdvsi7knnoxb" path="res://assets/fonts/ark-pixel-16px-monospaced-zh_cn.otf" id="14_3jbqm"]
 [ext_resource type="PackedScene" uid="uid://djh7elksssgkd" path="res://scenes/GameScene/turn_manager.tscn" id="14_s7wxe"]
+[ext_resource type="Script" uid="uid://y1xkebwvhjbi" path="res://code/NBattleManager.cs" id="17_njjfn"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_eek1s"]
 distance = -205.0
@@ -170,4 +171,5 @@ focus_mode = 0
 theme_override_fonts/font = ExtResource("14_3jbqm")
 text = "Back to Main_scene"
 
-[node name="BattleManager" parent="." instance=ExtResource("14_s7wxe")]
+[node name="NBattleManager" parent="." instance=ExtResource("14_s7wxe")]
+script = ExtResource("17_njjfn")

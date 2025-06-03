@@ -27,15 +27,25 @@ public partial class BattleManager : Node
 
 	public override void _Ready()
 	{
-		player1 = GetNode<Player1>("../Players/Player1");
-		player2 = GetNode<Player2>("../Players/Player2");
+		// player1 = GetNode<Player1>("../Players/Player1");
+		// player2 = GetNode<Player2>("../Players/Player2");
 		restartButton = GetNode<Button>("../CanvasLayer/RestartButton");
 		restartButton.Pressed += OnRestartButtonPressed;
 
 		GetGameEndUIElements();
 		
+		// ResetRound();
+	}
+
+	public void RegisterPlayers(Player1 p1, Player2 p2)
+	{
+		player1 = p1;
+		player2 = p2;
+		GD.Print("BattleManager: 成功绑定 Player1 和 Player2");
+
 		ResetRound();
 	}
+
 
 	private void GetGameEndUIElements()
 	{
@@ -43,9 +53,9 @@ public partial class BattleManager : Node
 		gameEndPanel = GetNode<Control>("../CanvasLayer/GameEndPanel");
 		gameEndLabel = GetNode<Label>("../CanvasLayer/GameEndPanel/GameEndLabel");
 		backToMainButton = GetNode<Button>("../CanvasLayer/GameEndPanel/BackToMainButton");
-		
+
 		backToMainButton.Pressed += OnBackToMainButtonPressed;
-		
+
 		gameEndPanel.Visible = false;
 	}
 	
@@ -103,6 +113,9 @@ public partial class BattleManager : Node
 
 	public override void _Process(double delta)
 	{
+		if (player1 == null || player2 == null || gameEnded)
+			return;
+
 		if (gameEnded) return;
 		
 		CheckGameEnd();

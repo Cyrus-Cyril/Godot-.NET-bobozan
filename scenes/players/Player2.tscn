@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=3 uid="uid://bj2eo16pbs1i2"]
+[gd_scene load_steps=39 format=3 uid="uid://bj2eo16pbs1i2"]
 
 [ext_resource type="Script" uid="uid://d1i8ghn3ext70" path="res://code/Player2.cs" id="1_2eka7"]
 [ext_resource type="Texture2D" uid="uid://xn4g2ug8mcb5" path="res://assets/Medieval King Pack 2/Sprites/Attack1.png" id="1_lvqbx"]
@@ -195,6 +195,29 @@ animations = [{
 radius = 11.0
 height = 50.0
 
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_00j5h"]
+properties/0/path = NodePath(".:HP")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:MaxMP")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath(".:MaxHP")
+properties/2/spawn = true
+properties/2/replication_mode = 1
+properties/3/path = NodePath(".:MP")
+properties/3/spawn = true
+properties/3/replication_mode = 1
+properties/4/path = NodePath(".:position")
+properties/4/spawn = true
+properties/4/replication_mode = 1
+properties/5/path = NodePath(".:scale")
+properties/5/spawn = true
+properties/5/replication_mode = 1
+properties/6/path = NodePath("AnimatedSprite2D:animation")
+properties/6/spawn = true
+properties/6/replication_mode = 1
+
 [node name="Player2" type="CharacterBody2D"]
 scale = Vector2(1.5002, 1.28408)
 script = ExtResource("1_2eka7")
@@ -239,3 +262,6 @@ offset_top = 8.00002
 offset_right = 47.9999
 offset_bottom = 31.0
 theme_override_fonts/font = ExtResource("13_00j5h")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_00j5h")
