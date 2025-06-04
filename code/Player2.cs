@@ -25,21 +25,22 @@ public partial class Player2 : CharacterBody2D
 	private string pendingAction = null;
 	private List<int> waveBuffer = new();
 	private bool actionChosen = false;
+	
 
 	public override void _Ready()
 	{
-		Position = new Vector2(664, 256); 
+		Position = new Vector2(664, 256);
 		Scale = new Vector2(5.07f, 3.801f);
 
 		sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 		StatusUI = GetNode<StatusPanel>(StatusUIPath);
 		ActionUI = GetNode<ActionPreview>(ActionPreviewPath);
-		
+
 		LoadPlayerData();
-		
+
 		StatusUI.UpdateHP(HP, MaxHP);
 		StatusUI.UpdateMP(MP, MaxMP);
-		
+
 		sprite.AnimationFinished += OnAnimationFinished;
 	}
 

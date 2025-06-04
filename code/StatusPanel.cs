@@ -18,6 +18,7 @@ public partial class StatusPanel : VBoxContainer
 		mpBar = GetNode<HBoxContainer>("MPBar");
 	}
 
+
 	public void UpdateHP(int hp, int maxHp)
 	{
 		if (hpBar == null) return;

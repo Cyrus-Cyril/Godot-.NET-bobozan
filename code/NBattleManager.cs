@@ -3,17 +3,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-public partial class BattleManager : Node
+public partial class NBattleManager : Node
 {
 	private Player1 player1;
 	private Player2 player2;
 
-	public PlayerAction actionP1;
-	public PlayerAction actionP2;
+	private PlayerAction actionP1;
+	private PlayerAction actionP2;
 
-	[Export] public bool p1Locked = false;
-	[Export] public bool p2Locked = false;
-	[Export] public bool gameEnded = false;
+	private bool p1Locked = false;
+	private bool p2Locked = false;
+	private bool gameEnded = false;
 
 	private Timer cleanupTimer = null;
 	
@@ -27,25 +27,15 @@ public partial class BattleManager : Node
 
 	public override void _Ready()
 	{
-		// player1 = GetNode<Player1>("../Players/Player1");
-		// player2 = GetNode<Player2>("../Players/Player2");
+		player1 = GetNode<Player1>("../Player1");
+		player2 = GetNode<Player2>("../Player2");
 		restartButton = GetNode<Button>("../CanvasLayer/RestartButton");
 		restartButton.Pressed += OnRestartButtonPressed;
 
 		GetGameEndUIElements();
 		
-		// ResetRound();
-	}
-
-	public void RegisterPlayers(Player1 p1, Player2 p2)
-	{
-		player1 = p1;
-		player2 = p2;
-		GD.Print("BattleManager: 成功绑定 Player1 和 Player2");
-
 		ResetRound();
 	}
-
 
 	private void GetGameEndUIElements()
 	{
@@ -53,9 +43,9 @@ public partial class BattleManager : Node
 		gameEndPanel = GetNode<Control>("../CanvasLayer/GameEndPanel");
 		gameEndLabel = GetNode<Label>("../CanvasLayer/GameEndPanel/GameEndLabel");
 		backToMainButton = GetNode<Button>("../CanvasLayer/GameEndPanel/BackToMainButton");
-
+		
 		backToMainButton.Pressed += OnBackToMainButtonPressed;
-
+		
 		gameEndPanel.Visible = false;
 	}
 	
@@ -113,9 +103,6 @@ public partial class BattleManager : Node
 
 	public override void _Process(double delta)
 	{
-		if (player1 == null || player2 == null || gameEnded)
-			return;
-
 		if (gameEnded) return;
 		
 		CheckGameEnd();
@@ -333,15 +320,15 @@ public partial class BattleManager : Node
 		return null;
 	}
 }
-
-public class PlayerAction
-{
-	public string Type;
-	public List<int> Waves = new();
-	public PlayerAction(string type) => Type = type;
-	public PlayerAction(string type, List<int> waves)
-	{
-		Type = type;
-		Waves = waves;
-	}
-}
+//
+//public class PlayerAction
+//{
+	//public string Type;
+	//public List<int> Waves = new();
+	//public PlayerAction(string type) => Type = type;
+	//public PlayerAction(string type, List<int> waves)
+	//{
+		//Type = type;
+		//Waves = waves;
+	//}
+//}
