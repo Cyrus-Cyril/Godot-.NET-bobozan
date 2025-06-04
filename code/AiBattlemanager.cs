@@ -14,6 +14,7 @@ public partial class AiBattlemanager : Node
 	private bool p1Locked = false;
 	private bool aiLocked = false;
 	private bool gameEnded = false; 
+	private bool isPaused = false; // 新增暂停标志
 
 	private Timer cleanupTimer = null;
 	
@@ -23,33 +24,81 @@ public partial class AiBattlemanager : Node
 	private Label gameEndLabel;
 	private Button backToMainButton;
 
+	// 暂停菜单UI
+	private Control pauseMenuPanel;
+	private Button resumeButton;
+	private Button backToMainButtonPause;
+	private ColorRect pauseMask;
+
 	private string mainMenuScenePath = "res://scenes/MainScene/main_scene.tscn"; 
 	
 	public override void _Ready()
 	{
 		player1Ai = GetNode<Player1Ai>("../Player1_ai");
 		aiPlayer = GetNode<AiPlayer>("../ai_player");
-		
 		AiPlayer.EnemyPlayer = player1Ai;
 		
 		restartButton = GetNode<Button>("../CanvasLayer/RestartButton");
 		restartButton.Pressed += OnRestartButtonPressed;
 		
 		GetGameEndUIElements();
-		
+		GetPauseMenuUIElements(); // 新增
+
 		ResetRound();
 	}
 
 	private void GetGameEndUIElements()
 	{
-
 		gameEndPanel = GetNode<Control>("../CanvasLayer/GameEndPanel");
 		gameEndLabel = GetNode<Label>("../CanvasLayer/GameEndPanel/GameEndLabel");
 		backToMainButton = GetNode<Button>("../CanvasLayer/GameEndPanel/BackToMainButton");
-		
 		backToMainButton.Pressed += OnBackToMainButtonPressed;
-		
 		gameEndPanel.Visible = false;
+	}
+
+	private void GetPauseMenuUIElements()
+	{
+		pauseMenuPanel = GetNode<Control>("../CanvasLayer/PauseMenuPanel");
+		resumeButton = GetNode<Button>("../CanvasLayer/PauseMenuPanel/ResumeButton");
+		backToMainButtonPause = GetNode<Button>("../CanvasLayer/PauseMenuPanel/BackToMainButton");
+		pauseMask = GetNode<ColorRect>("../CanvasLayer/PauseMenuPanel/PauseMask");
+		resumeButton.Pressed += OnResumeButtonPressed;
+		backToMainButtonPause.Pressed += OnBackToMainButtonPressed;
+		pauseMenuPanel.Visible = false;
+		// 避免暂停时 UI 不响应
+		pauseMenuPanel.ProcessMode = ProcessModeEnum.Always;
+	}
+
+	// 暂停相关
+	public override void _UnhandledInput(InputEvent @event)
+	{
+		// esc默认是ui_cancel，如果自定义请改成你的action
+		if (!gameEnded && !isPaused && @event.IsActionPressed("ui_cancel"))
+		{
+			PauseGame();
+		}
+	}
+
+	private void PauseGame()
+	{
+		isPaused = true;
+		pauseMenuPanel.Visible = true;
+		GetTree().Paused = true;
+	}
+
+	private void OnResumeButtonPressed()
+	{
+		isPaused = false;
+		pauseMenuPanel.Visible = false;
+		GetTree().Paused = false;
+	}
+
+	private void OnBackToMainButtonPressed()
+	{
+		ResetCharacterStates();
+		GD.Print("返回主界面前已重置双方HP/MP，并保存到数据库");
+		GetTree().Paused = false; // 切场景前恢复
+		GetTree().ChangeSceneToFile(mainMenuScenePath);
 	}
 
 	private void OnRestartButtonPressed()
@@ -74,15 +123,6 @@ public partial class AiBattlemanager : Node
 		GD.Print("已重置双方HP/MP，并保存到数据库");
 	}
 	
-	private void OnBackToMainButtonPressed()
-	{
-		ResetCharacterStates();
-		
-		GD.Print("返回主界面前已重置双方HP/MP，并保存到数据库");
-		
-		GetTree().ChangeSceneToFile(mainMenuScenePath);
-	}
-
 	private void ResetCharacterStates()
 	{
 		player1Ai.HP = player1Ai.MaxHP;
@@ -109,7 +149,7 @@ public partial class AiBattlemanager : Node
 	
 	public override void _Process(double delta)
 	{
-		if (gameEnded) return;
+		if (gameEnded || isPaused) return; // 暂停时不处理输入和回合
 		
 		CheckGameEnd();
 		
@@ -128,7 +168,6 @@ public partial class AiBattlemanager : Node
 		if (p1Locked && aiLocked)
 		{
 			ResolveTurn(actionP1, actionAI);
-			// 移除了这里的 ResetRound()，让 ResetAfterDelay() 处理
 			ResetRound();
 		}
 	}
@@ -155,11 +194,13 @@ public partial class AiBattlemanager : Node
 		gameEndPanel.Visible = true;
 		
 		GD.Print($"游戏结束: {message}");
+		GetTree().Paused = false; // 确保结束时不处于暂停状态
+		isPaused = false;
+		pauseMenuPanel.Visible = false;
 	}
 
 	private void ResetRound()
 	{
-		// 新增：游戏结束时不重置
 		if (gameEnded) return;
 		
 		p1Locked = false;
@@ -169,7 +210,6 @@ public partial class AiBattlemanager : Node
 
 		player1Ai.ResetAction();
 		aiPlayer.ResetState();
-
 	}
 
 	private void OnDelayedCleanup()
@@ -202,7 +242,6 @@ public partial class AiBattlemanager : Node
 
 				Bullet bullet = scene.Instantiate<Bullet>();
 				bullet.Direction = direction;
-				// bullet.Target = target;
 				bullet.GlobalPosition = position;
 				AddChild(bullet);
 
@@ -289,8 +328,6 @@ public partial class AiBattlemanager : Node
 				"AiPlayer", aiPlayer.HP, aiPlayer.MP, aiPlayer.MaxHP, aiPlayer.MaxMP
 			);
 		}
-	
-		//_ = ResetAfterDelay();
 	}
 
 	private PackedScene GetWaveScene(Node player, int level)

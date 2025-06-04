@@ -170,4 +170,43 @@ focus_mode = 0
 theme_override_fonts/font = ExtResource("15_gpnno")
 text = "Back to Main_scene"
 
+[node name="PauseMenuPanel" type="Control" parent="CanvasLayer"]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="PauseMask" type="ColorRect" parent="CanvasLayer/PauseMenuPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(32.0107, 17.9738)
+color = Color(0, 0, 0, 0.5)
+
+[node name="ResumeButton" type="Button" parent="CanvasLayer/PauseMenuPanel"]
+layout_mode = 0
+offset_left = 618.0
+offset_top = 190.0
+offset_right = 674.0
+offset_bottom = 214.0
+scale = Vector2(2, 2)
+focus_mode = 0
+theme_override_fonts/font = ExtResource("15_gpnno")
+text = "Resume"
+
+[node name="BackToMainButton" type="Button" parent="CanvasLayer/PauseMenuPanel"]
+layout_mode = 0
+offset_left = 525.0
+offset_top = 306.0
+offset_right = 677.0
+offset_bottom = 330.0
+scale = Vector2(2, 2)
+focus_mode = 0
+theme_override_fonts/font = ExtResource("15_gpnno")
+text = "Back to Main_scene"
+
 [node name="ai_battlemanager" parent="." instance=ExtResource("14_1euqg")]

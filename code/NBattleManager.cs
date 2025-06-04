@@ -14,6 +14,7 @@ public partial class NBattleManager : Node
 	private bool p1Locked = false;
 	private bool p2Locked = false;
 	private bool gameEnded = false;
+	private bool isPaused = false; // 新增暂停标志
 
 	private Timer cleanupTimer = null;
 	
@@ -22,7 +23,13 @@ public partial class NBattleManager : Node
 	private Control gameEndPanel;
 	private Label gameEndLabel;
 	private Button backToMainButton;
-	
+
+	// 新增暂停菜单相关
+	private Control pauseMenuPanel;
+	private ColorRect pauseMask;
+	private Button resumeButton;
+	private Button backToMainButtonPause;
+
 	private string mainMenuScenePath = "res://scenes/MainScene/main_scene.tscn"; 
 
 	public override void _Ready()
@@ -33,22 +40,66 @@ public partial class NBattleManager : Node
 		restartButton.Pressed += OnRestartButtonPressed;
 
 		GetGameEndUIElements();
-		
+		GetPauseMenuUIElements(); // 新增
+
 		ResetRound();
 	}
 
 	private void GetGameEndUIElements()
 	{
-
 		gameEndPanel = GetNode<Control>("../CanvasLayer/GameEndPanel");
 		gameEndLabel = GetNode<Label>("../CanvasLayer/GameEndPanel/GameEndLabel");
 		backToMainButton = GetNode<Button>("../CanvasLayer/GameEndPanel/BackToMainButton");
-		
 		backToMainButton.Pressed += OnBackToMainButtonPressed;
-		
 		gameEndPanel.Visible = false;
 	}
-	
+
+	private void GetPauseMenuUIElements()
+	{
+		pauseMenuPanel = GetNode<Control>("../CanvasLayer/PauseMenuPanel");
+		pauseMask = GetNode<ColorRect>("../CanvasLayer/PauseMenuPanel/PauseMask");
+		resumeButton = GetNode<Button>("../CanvasLayer/PauseMenuPanel/ResumeButton");
+		backToMainButtonPause = GetNode<Button>("../CanvasLayer/PauseMenuPanel/BackToMainButton");
+
+		resumeButton.Pressed += OnResumeButtonPressed;
+		backToMainButtonPause.Pressed += OnBackToMainButtonPressed;
+
+		pauseMenuPanel.Visible = false;
+		pauseMenuPanel.ProcessMode = ProcessModeEnum.Always;
+	}
+
+	// ========== 暂停相关 ==========
+	public override void _UnhandledInput(InputEvent @event)
+	{
+		if (!gameEnded && !isPaused && @event.IsActionPressed("ui_cancel"))
+		{
+			PauseGame();
+		}
+	}
+
+	private void PauseGame()
+	{
+		isPaused = true;
+		pauseMenuPanel.Visible = true;
+		GetTree().Paused = true;
+	}
+
+	private void OnResumeButtonPressed()
+	{
+		isPaused = false;
+		pauseMenuPanel.Visible = false;
+		GetTree().Paused = false;
+	}
+
+	private void OnBackToMainButtonPressed()
+	{
+		ResetCharacterStates();
+		GD.Print("返回主界面前已重置双方HP/MP，并保存到数据库");
+		GetTree().Paused = false;
+		GetTree().ChangeSceneToFile(mainMenuScenePath);
+	}
+
+	// ========== 游戏流程相关 ==========
 	private void OnRestartButtonPressed()
 	{
 		gameEnded = false;
@@ -67,16 +118,6 @@ public partial class NBattleManager : Node
 		ResetRound();
 		
 		GD.Print("已重置双方HP/MP，并保存到数据库");
-		//restartButton.ReleaseFocus();
-	}
-
-	private void OnBackToMainButtonPressed()
-	{
-		ResetCharacterStates();
-		
-		GD.Print("返回主界面前已重置双方HP/MP，并保存到数据库");
-		
-		GetTree().ChangeSceneToFile(mainMenuScenePath);
 	}
 
 	private void ResetCharacterStates()
@@ -103,7 +144,7 @@ public partial class NBattleManager : Node
 
 	public override void _Process(double delta)
 	{
-		if (gameEnded) return;
+		if (gameEnded || isPaused) return;
 		
 		CheckGameEnd();
 		
@@ -146,7 +187,10 @@ public partial class NBattleManager : Node
 		gameEndLabel.Text = message;
 		gameEndLabel.Modulate = textColor;
 		gameEndPanel.Visible = true;
-		
+		// 结束时确保解除暂停
+		isPaused = false;
+		pauseMenuPanel.Visible = false;
+		GetTree().Paused = false;
 		GD.Print($"游戏结束: {message}");
 	}
 
@@ -320,15 +364,3 @@ public partial class NBattleManager : Node
 		return null;
 	}
 }
-//
-//public class PlayerAction
-//{
-	//public string Type;
-	//public List<int> Waves = new();
-	//public PlayerAction(string type) => Type = type;
-	//public PlayerAction(string type, List<int> waves)
-	//{
-		//Type = type;
-		//Waves = waves;
-	//}
-//}
